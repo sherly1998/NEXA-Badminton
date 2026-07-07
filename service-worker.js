@@ -1,4 +1,4 @@
-const CACHE_NAME = "badminton-scheduler-v2";
+const CACHE_NAME = "badminton-scheduler-v3";
 const APP_FILES = [
   "./",
   "./aplikasi-jadwal-badminton.html",
