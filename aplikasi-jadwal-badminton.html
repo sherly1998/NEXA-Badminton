@@ -602,6 +602,7 @@
 
             <div class="toolbar">
               <button class="warning" id="generateBtn">Generate Jadwal</button>
+              <button id="appendRoundBtn">Tambah Ronde</button>
               <button class="primary" id="saveSessionBtn" disabled>Simpan Sesi</button>
               <button id="copyBtn" disabled>Copy Jadwal</button>
             </div>
@@ -613,7 +614,7 @@
               <div class="stat"><strong id="balanceStat">-</strong><span>Rata-rata selisih</span></div>
             </div>
 
-            <p class="small-note">Mesin jadwal memberi penalti jika pemain terlalu sering main, terlalu sering jadi pasangan, atau bertemu lawan yang sama dari riwayat tersimpan.</p>
+            <p class="small-note">Kalau pemain datang bertahap, centang pemain yang baru datang lalu tekan Tambah Ronde. Mesin jadwal akan memprioritaskan pemain yang jatah mainnya masih kurang.</p>
           </div>
         </div>
       </section>
@@ -892,10 +893,11 @@
       showToast("Pemain ditambahkan.");
     }
 
-    function generateSchedule() {
+    function generateSchedule(options = {}) {
+      const append = options.append === true;
       const presentPlayers = state.players.filter((player) => player.present);
       const courts = Number($("courtCount").value);
-      const rounds = Number($("roundCount").value);
+      const rounds = append ? 1 : Number($("roundCount").value);
       const maxGames = Number($("maxGames").value);
 
       if (presentPlayers.length < 4) {
@@ -903,12 +905,15 @@
         return;
       }
 
-      currentSchedule = [];
-      const playCounts = Object.fromEntries(presentPlayers.map((p) => [p.id, 0]));
-      const sessionPairs = {};
-      const sessionOpponents = {};
+      if (!append) currentSchedule = [];
+      const sessionMemory = buildCurrentSessionMemory(presentPlayers);
+      const playCounts = sessionMemory.playCounts;
+      const sessionPairs = sessionMemory.sessionPairs;
+      const sessionOpponents = sessionMemory.sessionOpponents;
+      const startRound = currentSchedule.length + 1;
+      let addedRounds = 0;
 
-      for (let roundNumber = 1; roundNumber <= rounds; roundNumber++) {
+      for (let roundNumber = startRound; roundNumber < startRound + rounds; roundNumber++) {
         const available = [...presentPlayers].sort((a, b) => {
           const byCount = playCounts[a.id] - playCounts[b.id];
           if (byCount) return byCount;
@@ -937,14 +942,48 @@
         const resting = presentPlayers.filter((player) => !used.has(player.id));
         if (!games.length) break;
         currentSchedule.push({ number: roundNumber, games, resting });
+        addedRounds++;
       }
 
       if (!currentSchedule.length) {
         showToast("Jadwal tidak bisa dibuat dengan batas main saat ini.");
         return;
       }
+      if (append && !addedRounds) {
+        showToast("Ronde tambahan tidak bisa dibuat. Cek jumlah pemain hadir atau batas main.");
+        return;
+      }
       renderSchedule();
-      showToast("Jadwal berhasil dibuat.");
+      showToast(append ? "Ronde tambahan berhasil dibuat." : "Jadwal berhasil dibuat.");
+    }
+
+    function buildCurrentSessionMemory(presentPlayers) {
+      const playCounts = Object.fromEntries(presentPlayers.map((p) => [p.id, 0]));
+      const sessionPairs = {};
+      const sessionOpponents = {};
+      const presentIds = new Set(presentPlayers.map((p) => p.id));
+
+      currentSchedule.forEach((round) => {
+        round.games.forEach((game) => {
+          const players = [...game.teamA, ...game.teamB].filter((player) => presentIds.has(player.id));
+          players.forEach((player) => {
+            playCounts[player.id] = (playCounts[player.id] || 0) + 1;
+          });
+          if (game.teamA.every((p) => presentIds.has(p.id))) {
+            incrementPair(sessionPairs, game.teamA[0].id, game.teamA[1].id);
+          }
+          if (game.teamB.every((p) => presentIds.has(p.id))) {
+            incrementPair(sessionPairs, game.teamB[0].id, game.teamB[1].id);
+          }
+          incrementOpponents(
+            sessionOpponents,
+            game.teamA.filter((p) => presentIds.has(p.id)),
+            game.teamB.filter((p) => presentIds.has(p.id))
+          );
+        });
+      });
+
+      return { playCounts, sessionPairs, sessionOpponents };
     }
 
     function chooseBestGame(candidates, playCounts, sessionPairs, sessionOpponents) {
@@ -1150,6 +1189,7 @@
     });
     $("courtCount").addEventListener("change", updateStats);
     $("generateBtn").addEventListener("click", generateSchedule);
+    $("appendRoundBtn").addEventListener("click", () => generateSchedule({ append: true }));
     scheduleEl.addEventListener("input", (event) => {
       const input = event.target.closest("input[data-score]");
       if (!input) return;
