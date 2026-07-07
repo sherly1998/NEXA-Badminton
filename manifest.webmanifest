@@ -1,0 +1,10 @@
+{
+  "name": "Pengatur Main Badminton",
+  "short_name": "Badminton",
+  "start_url": "./aplikasi-jadwal-badminton.html",
+  "display": "standalone",
+  "background_color": "#f6f7f3",
+  "theme_color": "#101712",
+  "orientation": "portrait-primary",
+  "description": "Aplikasi komunitas badminton untuk mengatur pemain, jadwal, skor, dan grade otomatis."
+}

@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101712">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Badminton">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>Pengatur Main Badminton</title>
+  <style>
+    :root {
+      --bg: #f6f7f3;
+      --panel: #ffffff;
+      --ink: #18201c;
+      --muted: #667268;
+      --line: #dce3da;
+      --brand: #146c43;
+      --brand-2: #f2b705;
+      --danger: #b42318;
+      --blue: #2262a3;
+      --shadow: 0 12px 34px rgba(24, 32, 28, .08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      min-height: 40px;
+      border-radius: 7px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: #e8eee8;
+    }
+
+    button:hover { filter: brightness(.98); }
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    header {
+      background: #101712;
+      color: white;
+      padding: 18px clamp(16px, 4vw, 42px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--brand-2);
+      color: #101712;
+      display: grid;
+      place-items: center;
+      font-weight: 850;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      font-size: clamp(18px, 2.2vw, 26px);
+      margin: 0;
+      letter-spacing: 0;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 3px 0 0;
+      color: #c9d6cd;
+      font-size: 13px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .ghost {
+      background: rgba(255,255,255,.12);
+      color: white;
+    }
+
+    main {
+      padding: clamp(16px, 4vw, 42px);
+      display: grid;
+      gap: 18px;
+      max-width: 1480px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .top-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 420px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .7fr .8fr;
+      gap: 10px;
+      align-items: end;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      min-height: 40px;
+      border-radius: 7px;
+      padding: 0 11px;
+    }
+
+    .primary {
+      background: var(--brand);
+      color: white;
+      font-weight: 750;
+    }
+
+    .warning {
+      background: var(--brand-2);
+      color: #16120a;
+      font-weight: 750;
+    }
+
+    .danger {
+      background: #ffe5e1;
+      color: var(--danger);
+      font-weight: 750;
+    }
+
+    .settings {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 12px;
+      background: #fbfcfa;
+      min-height: 74px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .players {
+      display: grid;
+      gap: 8px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .player {
+      display: grid;
+      grid-template-columns: 32px 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfa;
+    }
+
+    .player input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      min-height: 20px;
+      accent-color: var(--brand);
+    }
+
+    .player-name {
+      min-width: 0;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .badge {
+      display: inline-grid;
+      place-items: center;
+      min-width: 38px;
+      min-height: 26px;
+      border-radius: 999px;
+      padding: 0 9px;
+      background: #edf4ee;
+      color: #17452d;
+      font-weight: 850;
+      font-size: 12px;
+    }
+
+    .mini {
+      min-height: 30px;
+      padding: 0 9px;
+      font-size: 12px;
+    }
+
+    .schedule {
+      display: grid;
+      gap: 12px;
+    }
+
+    .round {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .round-head {
+      background: #eef3ed;
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 850;
+    }
+
+    .courts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .court {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      min-height: 156px;
+      background: #fcfdfb;
+    }
+
+    .score-entry {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      padding-top: 2px;
+    }
+
+    .score-entry input {
+      min-height: 36px;
+      text-align: center;
+      font-weight: 850;
+      font-size: 16px;
+    }
+
+    .score-entry span {
+      color: var(--muted);
+      font-weight: 850;
+      font-size: 12px;
+    }
+
+    .court-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .teams {
+      display: grid;
+      gap: 8px;
+    }
+
+    .team {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 9px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: white;
+    }
+
+    .team strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 13px;
+    }
+
+    .names {
+      font-size: 14px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .score {
+      color: var(--blue);
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .rest-list {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      padding: 0 12px 12px;
+    }
+
+    .empty {
+      border: 1px dashed #b8c5bb;
+      border-radius: 8px;
+      padding: 26px;
+      color: var(--muted);
+      text-align: center;
+      background: #fbfcfa;
+    }
+
+    .history {
+      display: grid;
+      gap: 8px;
+      max-height: 340px;
+      overflow: auto;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #fbfcfa;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 10px;
+    }
+
+    .install-note {
+      border-left: 4px solid var(--brand-2);
+      background: #fff9df;
+      padding: 10px 12px;
+      border-radius: 7px;
+      color: #5a4510;
+      font-size: 13px;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #101712;
+      color: white;
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+      transform: translateY(18px);
+      opacity: 0;
+      transition: .2s ease;
+      pointer-events: none;
+      max-width: min(420px, calc(100vw - 36px));
+      z-index: 20;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 980px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .header-actions {
+        justify-content: flex-start;
+      }
+      .top-grid {
+        grid-template-columns: 1fr;
+      }
+      .settings, .stat-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 620px) {
+      main { padding: 12px; }
+      .form-grid, .settings, .stat-row {
+        grid-template-columns: 1fr;
+      }
+      .player {
+        grid-template-columns: 28px 1fr auto;
+      }
+      .player .danger {
+        grid-column: 2 / 4;
+      }
+      .team {
+        grid-template-columns: 1fr;
+      }
+      .score {
+        justify-self: start;
+      }
+      .score-entry {
+        grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="mark">BD</div>
+        <div>
+          <h1>Pengatur Main Badminton</h1>
+          <p class="subtitle">Susun game otomatis: imbang, adil, dan kombinasi pemain lebih bervariasi.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="ghost" id="exportBtn">Export Data</button>
+        <button class="ghost" id="importBtn">Import Data</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
+    </header>
+
+    <main>
+      <section class="top-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Data Pemain</h2>
+            <button class="mini" id="sampleBtn">Isi Contoh</button>
+          </div>
+          <div class="panel-body">
+            <div class="install-note">Untuk iPhone: buka dari Safari, tekan tombol Share, lalu pilih Add to Home Screen. Setelah itu aplikasi bisa dibuka seperti app biasa.</div>
+            <div class="form-grid">
+              <label>
+                Nama
+                <input id="nameInput" placeholder="Nama pemain">
+              </label>
+              <label>
+                Grade
+                <select id="gradeInput">
+                  <option>A</option>
+                  <option>B+</option>
+                  <option>B</option>
+                  <option>C+</option>
+                  <option>C</option>
+                  <option>D</option>
+                </select>
+              </label>
+              <button class="primary" id="addBtn">Tambah</button>
+            </div>
+
+            <div class="toolbar" style="margin: 14px 0 10px;">
+              <button class="mini" id="selectAllBtn">Semua Hadir</button>
+              <button class="mini" id="clearAttendBtn">Kosongkan Hadir</button>
+              <button class="mini" id="sortBtn">Urut Grade</button>
+            </div>
+
+            <div class="players" id="players"></div>
+            <p class="small-note">Tips: centang pemain yang hadir saja. Grade dipakai sebagai nilai kekuatan untuk membuat tim lebih seimbang.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Sesi Selasa</h2>
+            <button class="danger" id="resetSessionBtn">Reset Sesi</button>
+          </div>
+          <div class="panel-body">
+            <div class="settings">
+              <label>
+                Tanggal
+                <input id="sessionDate" type="date">
+              </label>
+              <label>
+                Jumlah Lapangan
+                <select id="courtCount">
+                  <option value="3">3 lapangan</option>
+                  <option value="4">4 lapangan</option>
+                </select>
+              </label>
+              <label>
+                Jumlah Ronde
+                <input id="roundCount" type="number" min="1" max="12" value="5">
+              </label>
+              <label>
+                Maks. Main/Pemain
+                <input id="maxGames" type="number" min="1" max="12" value="3">
+              </label>
+              <label>
+                Update Grade
+                <select id="autoGrade">
+                  <option value="yes">Otomatis dari skor</option>
+                  <option value="no">Manual saja</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="toolbar">
+              <button class="warning" id="generateBtn">Generate Jadwal</button>
+              <button class="primary" id="saveSessionBtn" disabled>Simpan Sesi</button>
+              <button id="copyBtn" disabled>Copy Jadwal</button>
+            </div>
+
+            <div class="stat-row">
+              <div class="stat"><strong id="presentStat">0</strong><span>Pemain hadir</span></div>
+              <div class="stat"><strong id="courtStat">3</strong><span>Lapangan aktif</span></div>
+              <div class="stat"><strong id="gameStat">0</strong><span>Total game</span></div>
+              <div class="stat"><strong id="balanceStat">-</strong><span>Rata-rata selisih</span></div>
+            </div>
+
+            <p class="small-note">Mesin jadwal memberi penalti jika pemain terlalu sering main, terlalu sering jadi pasangan, atau bertemu lawan yang sama dari riwayat tersimpan.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Jadwal Main</h2>
+          <span class="badge" id="scheduleStatus">Belum dibuat</span>
+        </div>
+        <div class="panel-body">
+          <div class="schedule" id="schedule"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Riwayat Sesi</h2>
+          <button class="danger mini" id="clearHistoryBtn">Hapus Riwayat</button>
+        </div>
+        <div class="panel-body">
+          <div class="history" id="history"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const STORAGE_KEY = "badminton-auto-scheduler-v1";
+    const gradeScore = { A: 5, "B+": 4.5, B: 4, "C+": 3.5, C: 3, D: 2.5 };
+    const gradeOrder = ["D", "C", "C+", "B", "B+", "A"];
+    const samplePlayers = [
+      ["Andi", "B+"], ["Bima", "B"], ["Chandra", "A"], ["Dodi", "C+"], ["Eka", "B"],
+      ["Fajar", "A"], ["Gilang", "B+"], ["Hendra", "C"], ["Iwan", "B"], ["Joko", "C+"],
+      ["Kurnia", "B+"], ["Lukman", "B"], ["Maman", "C"], ["Nando", "A"], ["Oki", "B"],
+      ["Pras", "C+"], ["Qori", "B+"], ["Raka", "B"], ["Surya", "C"], ["Tono", "B+"],
+      ["Umar", "B"], ["Vino", "C+"], ["Wahyu", "A"], ["Yudi", "B"], ["Zaki", "C"],
+      ["Arif", "B+"], ["Bagus", "B"], ["Cahyo", "C+"], ["Dimas", "B"], ["Erwin", "C"],
+      ["Farhan", "A"], ["Galih", "B+"], ["Haris", "B"], ["Ilham", "C+"], ["Janu", "C"],
+      ["Kevin", "B"], ["Lutfi", "B+"], ["Miko", "C"], ["Nugroho", "B"], ["Oscar", "C+"]
+    ];
+
+    const state = loadState();
+    let currentSchedule = [];
+
+    const $ = (id) => document.getElementById(id);
+    const playersEl = $("players");
+    const scheduleEl = $("schedule");
+    const historyEl = $("history");
+    const toastEl = $("toast");
+
+    function defaultState() {
+      return {
+        players: [],
+        sessions: [],
+        pairCounts: {},
+        opponentCounts: {},
+        scoreHistory: []
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (!saved || !Array.isArray(saved.players)) return defaultState();
+      const merged = { ...defaultState(), ...saved };
+      merged.players = merged.players.map((player) => ({
+        rating: gradeScore[player.grade] || 3,
+        ...player
+      }));
+      return merged;
+      } catch {
+        return defaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function uid() {
+      return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    function pairKey(a, b) {
+      return [a, b].sort().join("|");
+    }
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+      setTimeout(() => toastEl.classList.remove("show"), 2400);
+    }
+
+    function todayInputValue() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function renderPlayers() {
+      playersEl.innerHTML = "";
+      if (!state.players.length) {
+        playersEl.innerHTML = `<div class="empty">Belum ada pemain. Tambahkan pemain atau pakai data contoh.</div>`;
+        updateStats();
+        return;
+      }
+
+      state.players.forEach((player) => {
+        const row = document.createElement("div");
+        row.className = "player";
+        row.innerHTML = `
+          <input type="checkbox" ${player.present ? "checked" : ""} aria-label="Hadir">
+          <div class="player-name">${escapeHtml(player.name)}<div class="small-note">Rating ${playerRating(player).toFixed(2)}</div></div>
+          <span class="badge">${player.grade}</span>
+          <button class="danger mini">Hapus</button>
+        `;
+        row.querySelector("input").addEventListener("change", (event) => {
+          player.present = event.target.checked;
+          saveState();
+          updateStats();
+        });
+        row.querySelector("button").addEventListener("click", () => {
+          state.players = state.players.filter((item) => item.id !== player.id);
+          saveState();
+          renderAll();
+        });
+        playersEl.appendChild(row);
+      });
+      updateStats();
+    }
+
+    function renderSchedule() {
+      scheduleEl.innerHTML = "";
+      if (!currentSchedule.length) {
+        scheduleEl.innerHTML = `<div class="empty">Klik Generate Jadwal setelah memilih pemain yang hadir.</div>`;
+        $("scheduleStatus").textContent = "Belum dibuat";
+        $("saveSessionBtn").disabled = true;
+        $("copyBtn").disabled = true;
+        updateStats();
+        return;
+      }
+
+      currentSchedule.forEach((round) => {
+        const roundEl = document.createElement("div");
+        roundEl.className = "round";
+        const restText = round.resting.length
+          ? `Istirahat: ${round.resting.map((p) => p.name).join(", ")}`
+          : "Semua pemain terpakai di ronde ini";
+        roundEl.innerHTML = `
+          <div class="round-head">
+            <span>Ronde ${round.number}</span>
+            <span>${round.games.length} game</span>
+          </div>
+          <div class="courts">
+            ${round.games.map((game) => `
+              <div class="court">
+                <div class="court-title">
+                  <span>Lapangan ${game.court}</span>
+                  <span>Selisih ${game.diff.toFixed(1)}</span>
+                </div>
+                <div class="teams">
+                  <div class="team">
+                    <div>
+                      <strong>Tim A</strong>
+                      <div class="names">${game.teamA.map(nameWithGrade).join(" + ")}</div>
+                    </div>
+                    <div class="score">${teamScore(game.teamA).toFixed(1)}</div>
+                  </div>
+                  <div class="team">
+                    <div>
+                      <strong>Tim B</strong>
+                      <div class="names">${game.teamB.map(nameWithGrade).join(" + ")}</div>
+                    </div>
+                    <div class="score">${teamScore(game.teamB).toFixed(1)}</div>
+                  </div>
+                </div>
+                <div class="score-entry">
+                  <input inputmode="numeric" pattern="[0-9]*" min="0" max="99" type="number" placeholder="Skor A" value="${game.scoreA ?? ""}" data-score="A" data-round="${round.number}" data-court="${game.court}">
+                  <span>VS</span>
+                  <input inputmode="numeric" pattern="[0-9]*" min="0" max="99" type="number" placeholder="Skor B" value="${game.scoreB ?? ""}" data-score="B" data-round="${round.number}" data-court="${game.court}">
+                </div>
+              </div>
+            `).join("")}
+          </div>
+          <div class="rest-list">${escapeHtml(restText)}</div>
+        `;
+        scheduleEl.appendChild(roundEl);
+      });
+
+      $("scheduleStatus").textContent = "Siap disimpan";
+      $("saveSessionBtn").disabled = false;
+      $("copyBtn").disabled = false;
+      updateStats();
+    }
+
+    function nameWithGrade(player) {
+      return `${escapeHtml(player.name)} <span class="badge">${player.grade}</span>`;
+    }
+
+    function teamScore(team) {
+      return team.reduce((sum, player) => sum + playerRating(player), 0);
+    }
+
+    function playerRating(player) {
+      return Number.isFinite(Number(player.rating)) ? Number(player.rating) : (gradeScore[player.grade] || 3);
+    }
+
+    function gradeFromRating(rating) {
+      if (rating >= 4.75) return "A";
+      if (rating >= 4.25) return "B+";
+      if (rating >= 3.75) return "B";
+      if (rating >= 3.25) return "C+";
+      if (rating >= 2.75) return "C";
+      return "D";
+    }
+
+    function renderHistory() {
+      historyEl.innerHTML = "";
+      if (!state.sessions.length) {
+        historyEl.innerHTML = `<div class="empty">Riwayat sesi yang disimpan akan muncul di sini.</div>`;
+        return;
+      }
+
+      [...state.sessions].reverse().forEach((session) => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+          <div>
+            <strong>${escapeHtml(session.date)}</strong>
+            <div class="small-note">${session.presentCount} pemain, ${session.courts} lapangan, ${session.games} game</div>
+          </div>
+          <button class="mini">Lihat</button>
+        `;
+        item.querySelector("button").addEventListener("click", () => {
+          currentSchedule = session.schedule;
+          renderSchedule();
+          showToast("Riwayat sesi dibuka.");
+          window.scrollTo({ top: document.body.scrollHeight * .35, behavior: "smooth" });
+        });
+        historyEl.appendChild(item);
+      });
+    }
+
+    function renderAll() {
+      renderPlayers();
+      renderSchedule();
+      renderHistory();
+    }
+
+    function updateStats() {
+      const present = state.players.filter((p) => p.present).length;
+      const games = currentSchedule.reduce((sum, round) => sum + round.games.length, 0);
+      const diffs = currentSchedule.flatMap((round) => round.games.map((game) => game.diff));
+      const avgDiff = diffs.length ? (diffs.reduce((a, b) => a + b, 0) / diffs.length).toFixed(2) : "-";
+      $("presentStat").textContent = present;
+      $("courtStat").textContent = $("courtCount").value;
+      $("gameStat").textContent = games;
+      $("balanceStat").textContent = avgDiff;
+    }
+
+    function addPlayer() {
+      const name = $("nameInput").value.trim();
+      const grade = $("gradeInput").value;
+      if (!name) {
+        showToast("Nama pemain belum diisi.");
+        return;
+      }
+      if (state.players.some((player) => player.name.toLowerCase() === name.toLowerCase())) {
+        showToast("Nama pemain sudah ada.");
+        return;
+      }
+      state.players.push({ id: uid(), name, grade, rating: gradeScore[grade], present: true });
+      $("nameInput").value = "";
+      saveState();
+      renderPlayers();
+      showToast("Pemain ditambahkan.");
+    }
+
+    function generateSchedule() {
+      const presentPlayers = state.players.filter((player) => player.present);
+      const courts = Number($("courtCount").value);
+      const rounds = Number($("roundCount").value);
+      const maxGames = Number($("maxGames").value);
+
+      if (presentPlayers.length < 4) {
+        showToast("Minimal perlu 4 pemain hadir.");
+        return;
+      }
+
+      currentSchedule = [];
+      const playCounts = Object.fromEntries(presentPlayers.map((p) => [p.id, 0]));
+      const sessionPairs = {};
+      const sessionOpponents = {};
+
+      for (let roundNumber = 1; roundNumber <= rounds; roundNumber++) {
+        const available = [...presentPlayers].sort((a, b) => {
+          const byCount = playCounts[a.id] - playCounts[b.id];
+          if (byCount) return byCount;
+          return Math.random() - .5;
+        });
+        const used = new Set();
+        const games = [];
+
+        for (let court = 1; court <= courts; court++) {
+          const candidates = available.filter((p) => !used.has(p.id) && playCounts[p.id] < maxGames);
+          if (candidates.length < 4) break;
+          const game = chooseBestGame(candidates, playCounts, sessionPairs, sessionOpponents);
+          if (!game) break;
+
+          game.court = court;
+          games.push(game);
+          [...game.teamA, ...game.teamB].forEach((player) => {
+            used.add(player.id);
+            playCounts[player.id]++;
+          });
+          incrementPair(sessionPairs, game.teamA[0].id, game.teamA[1].id);
+          incrementPair(sessionPairs, game.teamB[0].id, game.teamB[1].id);
+          incrementOpponents(sessionOpponents, game.teamA, game.teamB);
+        }
+
+        const resting = presentPlayers.filter((player) => !used.has(player.id));
+        if (!games.length) break;
+        currentSchedule.push({ number: roundNumber, games, resting });
+      }
+
+      if (!currentSchedule.length) {
+        showToast("Jadwal tidak bisa dibuat dengan batas main saat ini.");
+        return;
+      }
+      renderSchedule();
+      showToast("Jadwal berhasil dibuat.");
+    }
+
+    function chooseBestGame(candidates, playCounts, sessionPairs, sessionOpponents) {
+      const shuffled = [...candidates].sort(() => Math.random() - .5);
+      const limited = shuffled.slice(0, Math.min(shuffled.length, 14));
+      let best = null;
+
+      for (let a = 0; a < limited.length - 3; a++) {
+        for (let b = a + 1; b < limited.length - 2; b++) {
+          for (let c = b + 1; c < limited.length - 1; c++) {
+            for (let d = c + 1; d < limited.length; d++) {
+              const four = [limited[a], limited[b], limited[c], limited[d]];
+              const splits = [
+                [[four[0], four[1]], [four[2], four[3]]],
+                [[four[0], four[2]], [four[1], four[3]]],
+                [[four[0], four[3]], [four[1], four[2]]]
+              ];
+              splits.forEach(([teamA, teamB]) => {
+                const diff = Math.abs(teamScore(teamA) - teamScore(teamB));
+                const fatigue = [...teamA, ...teamB].reduce((sum, p) => sum + playCounts[p.id] * .2, 0);
+                const repeatPair =
+                  getPairPenalty(teamA, sessionPairs) + getPairPenalty(teamB, sessionPairs);
+                const repeatOpponent = getOpponentPenalty(teamA, teamB, sessionOpponents);
+                const gradeSpread = Math.abs((playerRating(teamA[0]) - playerRating(teamA[1]))) * .05
+                  + Math.abs((playerRating(teamB[0]) - playerRating(teamB[1]))) * .05;
+                const score = diff * 10 + fatigue + repeatPair * 5 + repeatOpponent * 3 + gradeSpread;
+                if (!best || score < best.score) {
+                  best = { teamA, teamB, diff, score };
+                }
+              });
+            }
+          }
+        }
+      }
+      return best;
+    }
+
+    function incrementPair(map, a, b) {
+      const key = pairKey(a, b);
+      map[key] = (map[key] || 0) + 1;
+    }
+
+    function incrementOpponents(map, teamA, teamB) {
+      teamA.forEach((a) => teamB.forEach((b) => incrementPair(map, a.id, b.id)));
+    }
+
+    function getPairPenalty(team, sessionPairs) {
+      const key = pairKey(team[0].id, team[1].id);
+      return (state.pairCounts[key] || 0) + (sessionPairs[key] || 0) * 2;
+    }
+
+    function getOpponentPenalty(teamA, teamB, sessionOpponents) {
+      let penalty = 0;
+      teamA.forEach((a) => {
+        teamB.forEach((b) => {
+          const key = pairKey(a.id, b.id);
+          penalty += (state.opponentCounts[key] || 0) + (sessionOpponents[key] || 0) * 2;
+        });
+      });
+      return penalty;
+    }
+
+    function saveCurrentSession() {
+      if (!currentSchedule.length) return;
+      const ratingChanges = $("autoGrade").value === "yes" ? applyScoreRatings() : [];
+      currentSchedule.forEach((round) => {
+        round.games.forEach((game) => {
+          incrementPair(state.pairCounts, game.teamA[0].id, game.teamA[1].id);
+          incrementPair(state.pairCounts, game.teamB[0].id, game.teamB[1].id);
+          incrementOpponents(state.opponentCounts, game.teamA, game.teamB);
+        });
+      });
+
+      state.sessions.push({
+        id: uid(),
+        date: $("sessionDate").value,
+        courts: Number($("courtCount").value),
+        presentCount: state.players.filter((p) => p.present).length,
+        games: currentSchedule.reduce((sum, round) => sum + round.games.length, 0),
+        ratingChanges,
+        schedule: currentSchedule
+      });
+      saveState();
+      renderPlayers();
+      renderHistory();
+      showToast(ratingChanges.length ? "Sesi tersimpan dan grade diperbarui." : "Sesi tersimpan ke riwayat.");
+    }
+
+    function applyScoreRatings() {
+      const changes = [];
+      currentSchedule.forEach((round) => {
+        round.games.forEach((game) => {
+          const scoreA = Number(game.scoreA);
+          const scoreB = Number(game.scoreB);
+          if (!Number.isFinite(scoreA) || !Number.isFinite(scoreB) || scoreA === scoreB) return;
+          const teamA = game.teamA.map((p) => state.players.find((player) => player.id === p.id)).filter(Boolean);
+          const teamB = game.teamB.map((p) => state.players.find((player) => player.id === p.id)).filter(Boolean);
+          if (teamA.length !== 2 || teamB.length !== 2) return;
+
+          const ratingA = teamA.reduce((sum, p) => sum + playerRating(p), 0) / 2;
+          const ratingB = teamB.reduce((sum, p) => sum + playerRating(p), 0) / 2;
+          const expectedA = 1 / (1 + Math.pow(10, (ratingB - ratingA) / 1.2));
+          const actualA = scoreA > scoreB ? 1 : 0;
+          const margin = Math.min(Math.abs(scoreA - scoreB), 15);
+          const factor = 0.035 + margin * 0.006;
+          const deltaA = clamp((actualA - expectedA) * factor, -0.12, 0.12);
+          const deltaB = -deltaA;
+
+          updateTeamRating(teamA, deltaA, changes, game, scoreA, scoreB);
+          updateTeamRating(teamB, deltaB, changes, game, scoreB, scoreA);
+          state.scoreHistory.push({
+            date: $("sessionDate").value,
+            round: round.number,
+            court: game.court,
+            teamA: teamA.map((p) => p.id),
+            teamB: teamB.map((p) => p.id),
+            scoreA,
+            scoreB
+          });
+        });
+      });
+      return changes;
+    }
+
+    function updateTeamRating(team, delta, changes, game, ownScore, opponentScore) {
+      team.forEach((player) => {
+        const beforeRating = playerRating(player);
+        const beforeGrade = player.grade;
+        const nextRating = clamp(beforeRating + delta, 2.3, 5.2);
+        const nextGrade = gradeFromRating(nextRating);
+        player.rating = Number(nextRating.toFixed(3));
+        player.grade = nextGrade;
+        if (beforeGrade !== nextGrade || Math.abs(beforeRating - nextRating) >= .005) {
+          changes.push({
+            playerId: player.id,
+            name: player.name,
+            beforeGrade,
+            afterGrade: nextGrade,
+            beforeRating: Number(beforeRating.toFixed(3)),
+            afterRating: Number(nextRating.toFixed(3)),
+            score: `${ownScore}-${opponentScore}`,
+            court: game.court
+          });
+        }
+      });
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function scheduleToText() {
+      if (!currentSchedule.length) return "";
+      return currentSchedule.map((round) => {
+        const games = round.games.map((game) => {
+          const a = game.teamA.map((p) => `${p.name} (${p.grade})`).join(" + ");
+          const b = game.teamB.map((p) => `${p.name} (${p.grade})`).join(" + ");
+          return `Lapangan ${game.court}: ${a} vs ${b}`;
+        }).join("\n");
+        const rest = round.resting.length ? `Istirahat: ${round.resting.map((p) => p.name).join(", ")}` : "Istirahat: -";
+        return `Ronde ${round.number}\n${games}\n${rest}`;
+      }).join("\n\n");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    $("addBtn").addEventListener("click", addPlayer);
+    $("nameInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") addPlayer();
+    });
+    $("sampleBtn").addEventListener("click", () => {
+      if (state.players.length && !confirm("Ganti/tambah data contoh ke daftar pemain?")) return;
+      const existing = new Set(state.players.map((p) => p.name.toLowerCase()));
+      samplePlayers.forEach(([name, grade]) => {
+        if (!existing.has(name.toLowerCase())) state.players.push({ id: uid(), name, grade, rating: gradeScore[grade], present: true });
+      });
+      saveState();
+      renderAll();
+      showToast("Data contoh dimasukkan.");
+    });
+    $("selectAllBtn").addEventListener("click", () => {
+      state.players.forEach((p) => p.present = true);
+      saveState();
+      renderPlayers();
+    });
+    $("clearAttendBtn").addEventListener("click", () => {
+      state.players.forEach((p) => p.present = false);
+      saveState();
+      renderPlayers();
+    });
+    $("sortBtn").addEventListener("click", () => {
+      state.players.sort((a, b) => playerRating(b) - playerRating(a) || a.name.localeCompare(b.name));
+      saveState();
+      renderPlayers();
+    });
+    $("courtCount").addEventListener("change", updateStats);
+    $("generateBtn").addEventListener("click", generateSchedule);
+    scheduleEl.addEventListener("input", (event) => {
+      const input = event.target.closest("input[data-score]");
+      if (!input) return;
+      const roundNumber = Number(input.dataset.round);
+      const court = Number(input.dataset.court);
+      const round = currentSchedule.find((item) => item.number === roundNumber);
+      const game = round?.games.find((item) => item.court === court);
+      if (!game) return;
+      const value = input.value === "" ? null : Number(input.value);
+      if (input.dataset.score === "A") game.scoreA = value;
+      if (input.dataset.score === "B") game.scoreB = value;
+    });
+    $("saveSessionBtn").addEventListener("click", saveCurrentSession);
+    $("copyBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(scheduleToText());
+      showToast("Jadwal disalin.");
+    });
+    $("resetSessionBtn").addEventListener("click", () => {
+      currentSchedule = [];
+      renderSchedule();
+      showToast("Sesi direset.");
+    });
+    $("clearHistoryBtn").addEventListener("click", () => {
+      if (!confirm("Hapus semua riwayat sesi dan memori variasi pasangan/lawan?")) return;
+      state.sessions = [];
+      state.pairCounts = {};
+      state.opponentCounts = {};
+      saveState();
+      renderHistory();
+      showToast("Riwayat dihapus.");
+    });
+    $("exportBtn").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `data-badminton-${todayInputValue()}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+    $("importBtn").addEventListener("click", () => $("importFile").click());
+    $("importFile").addEventListener("change", (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!Array.isArray(imported.players)) throw new Error("Format tidak valid");
+          Object.assign(state, defaultState(), imported);
+          saveState();
+          currentSchedule = [];
+          renderAll();
+          showToast("Data berhasil diimport.");
+        } catch {
+          showToast("File data tidak bisa dibaca.");
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    });
+
+    $("sessionDate").value = todayInputValue();
+    renderAll();
+
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      navigator.serviceWorker.register("service-worker.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
