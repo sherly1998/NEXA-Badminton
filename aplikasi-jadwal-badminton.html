@@ -3,133 +3,99 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101712">
+  <meta name="theme-color" content="#102017">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Badminton">
+  <meta name="apple-mobile-web-app-title" content="NEXA">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.webmanifest">
-  <title>Pengatur Main Badminton</title>
+  <title>NEXA Badminton Scheduler</title>
   <style>
     :root {
-      --bg: #f6f7f3;
+      --bg: #f4f6f2;
       --panel: #ffffff;
-      --ink: #18201c;
-      --muted: #667268;
-      --line: #dce3da;
-      --brand: #146c43;
-      --brand-2: #f2b705;
-      --danger: #b42318;
-      --blue: #2262a3;
-      --shadow: 0 12px 34px rgba(24, 32, 28, .08);
+      --ink: #142018;
+      --muted: #657168;
+      --line: #dbe3dc;
+      --brand: #12643f;
+      --gold: #f1b91d;
+      --red: #b42318;
+      --blue: #2364a3;
+      --shadow: 0 12px 30px rgba(20, 32, 24, .08);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-    }
-
-    button, input, select, textarea {
-      font: inherit;
-    }
-
+    body { margin: 0; background: var(--bg); color: var(--ink); }
+    button, input, select { font: inherit; }
     button {
       border: 0;
-      cursor: pointer;
-      min-height: 40px;
       border-radius: 7px;
-      padding: 0 14px;
-      color: var(--ink);
+      min-height: 40px;
+      padding: 0 13px;
       background: #e8eee8;
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 750;
     }
-
-    button:hover { filter: brightness(.98); }
-    button:disabled {
-      cursor: not-allowed;
-      opacity: .45;
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    input, select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 0 10px;
+      background: white;
+      color: var(--ink);
     }
-
-    .app {
-      min-height: 100vh;
+    label {
       display: grid;
-      grid-template-rows: auto 1fr;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     header {
-      background: #101712;
-      color: white;
-      padding: 18px clamp(16px, 4vw, 42px);
+      position: sticky;
+      top: 0;
+      z-index: 5;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      background: var(--brand-2);
-      color: #101712;
-      display: grid;
-      place-items: center;
-      font-weight: 850;
-      flex: 0 0 auto;
-    }
-
-    h1 {
-      font-size: clamp(18px, 2.2vw, 26px);
-      margin: 0;
-      letter-spacing: 0;
-      line-height: 1.15;
-    }
-
-    .subtitle {
-      margin: 3px 0 0;
-      color: #c9d6cd;
-      font-size: 13px;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .ghost {
-      background: rgba(255,255,255,.12);
+      padding: 16px clamp(14px, 4vw, 40px);
+      background: #102017;
       color: white;
     }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--gold);
+      color: #11170f;
+      font-weight: 900;
+    }
+    h1 { margin: 0; font-size: clamp(18px, 2.5vw, 26px); letter-spacing: 0; line-height: 1.1; }
+    h2 { margin: 0; font-size: 17px; letter-spacing: 0; }
+    .subtitle { margin: 4px 0 0; color: #cdd8cf; font-size: 13px; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .ghost { background: rgba(255,255,255,.12); color: white; }
+    .primary { background: var(--brand); color: white; }
+    .warning { background: var(--gold); color: #16120a; }
+    .danger { background: #ffe5e1; color: var(--red); }
 
     main {
-      padding: clamp(16px, 4vw, 42px);
       display: grid;
       gap: 18px;
-      max-width: 1480px;
       width: 100%;
+      max-width: 1520px;
       margin: 0 auto;
+      padding: clamp(14px, 4vw, 40px);
     }
-
-    .top-grid {
-      display: grid;
-      grid-template-columns: minmax(320px, 420px) 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
+    .top-grid { display: grid; grid-template-columns: minmax(330px, 460px) 1fr; gap: 18px; align-items: start; }
     .panel {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -137,122 +103,35 @@
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-
     .panel-head {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-    }
-
-    h2 {
-      margin: 0;
-      font-size: 17px;
-      letter-spacing: 0;
-    }
-
-    .panel-body {
-      padding: 18px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1.2fr .7fr .8fr;
       gap: 10px;
-      align-items: end;
+      padding: 15px 17px;
+      border-bottom: 1px solid var(--line);
     }
-
-    label {
-      display: grid;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    input, select {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: white;
-      color: var(--ink);
-      min-height: 40px;
+    .panel-body { padding: 17px; }
+    .form-grid { display: grid; grid-template-columns: 1.3fr .75fr .75fr auto; gap: 10px; align-items: end; }
+    .settings { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 10px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+    .mini { min-height: 31px; padding: 0 9px; font-size: 12px; }
+    .small-note { color: var(--muted); font-size: 12px; line-height: 1.35; margin-top: 8px; }
+    .install-note {
+      margin-bottom: 13px;
+      padding: 10px 12px;
+      border-left: 4px solid var(--gold);
       border-radius: 7px;
-      padding: 0 11px;
+      background: #fff9df;
+      color: #5a4510;
+      font-size: 13px;
+      line-height: 1.35;
     }
 
-    .primary {
-      background: var(--brand);
-      color: white;
-      font-weight: 750;
-    }
-
-    .warning {
-      background: var(--brand-2);
-      color: #16120a;
-      font-weight: 750;
-    }
-
-    .danger {
-      background: #ffe5e1;
-      color: var(--danger);
-      font-weight: 750;
-    }
-
-    .settings {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(130px, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .stat {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 11px 12px;
-      background: #fbfcfa;
-      min-height: 74px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 650;
-    }
-
-    .players {
-      display: grid;
-      gap: 8px;
-      max-height: 520px;
-      overflow: auto;
-      padding-right: 4px;
-    }
-
+    .players { display: grid; gap: 8px; max-height: 560px; overflow: auto; padding-right: 3px; }
     .player {
       display: grid;
-      grid-template-columns: 32px 1fr auto auto;
+      grid-template-columns: 30px 1fr auto auto auto;
       gap: 8px;
       align-items: center;
       padding: 9px;
@@ -260,252 +139,114 @@
       border-radius: 8px;
       background: #fbfcfa;
     }
-
-    .player input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      min-height: 20px;
-      accent-color: var(--brand);
-    }
-
-    .player-name {
-      min-width: 0;
-      font-weight: 750;
-      overflow-wrap: anywhere;
-    }
-
+    .player input[type="checkbox"] { width: 20px; height: 20px; min-height: 20px; accent-color: var(--brand); }
+    .player-name { min-width: 0; font-weight: 850; overflow-wrap: anywhere; }
     .badge {
       display: inline-grid;
       place-items: center;
-      min-width: 38px;
-      min-height: 26px;
+      min-width: 34px;
+      min-height: 25px;
       border-radius: 999px;
       padding: 0 9px;
       background: #edf4ee;
       color: #17452d;
-      font-weight: 850;
+      font-weight: 900;
       font-size: 12px;
+      white-space: nowrap;
     }
+    .badge.blue { background: #e7f0fb; color: #174a81; }
+    .badge.gold { background: #fff4c9; color: #5c4408; }
 
-    .mini {
-      min-height: 30px;
-      padding: 0 9px;
-      font-size: 12px;
-    }
+    .stat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 14px; }
+    .stat { min-height: 72px; border: 1px solid var(--line); border-radius: 8px; background: #fbfcfa; padding: 10px 12px; }
+    .stat strong { display: block; font-size: 23px; line-height: 1; margin-bottom: 6px; }
+    .stat span { color: var(--muted); font-size: 12px; font-weight: 750; }
 
-    .schedule {
-      display: grid;
-      gap: 12px;
-    }
-
-    .round {
+    .request-grid { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 10px; align-items: end; }
+    .request-list { display: grid; gap: 8px; margin-top: 12px; }
+    .request-item, .history-item, .report-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      overflow: hidden;
-      background: white;
+      background: #fbfcfa;
     }
 
+    .schedule { display: grid; gap: 12px; }
+    .round { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: white; }
     .round-head {
-      background: #eef3ed;
-      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       gap: 8px;
-      font-weight: 850;
+      padding: 10px 12px;
+      background: #eef3ed;
+      font-weight: 900;
     }
-
-    .courts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 10px;
-      padding: 12px;
-    }
-
+    .courts { display: grid; grid-template-columns: repeat(auto-fit, minmax(285px, 1fr)); gap: 10px; padding: 12px; }
     .court {
+      display: grid;
+      gap: 10px;
+      min-height: 190px;
+      padding: 12px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
-      display: grid;
-      gap: 10px;
-      min-height: 156px;
       background: #fcfdfb;
     }
-
-    .score-entry {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 8px;
-      align-items: center;
-      padding-top: 2px;
-    }
-
-    .score-entry input {
-      min-height: 36px;
-      text-align: center;
-      font-weight: 850;
-      font-size: 16px;
-    }
-
-    .score-entry span {
-      color: var(--muted);
-      font-weight: 850;
-      font-size: 12px;
-    }
-
-    .court-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .teams {
-      display: grid;
-      gap: 8px;
-    }
-
+    .court-title { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    .teams { display: grid; gap: 8px; }
     .team {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 8px;
       align-items: center;
       padding: 9px;
-      border-radius: 7px;
       border: 1px solid var(--line);
+      border-radius: 7px;
       background: white;
     }
-
-    .team strong {
-      display: block;
-      margin-bottom: 3px;
-      font-size: 13px;
-    }
-
-    .names {
-      font-size: 14px;
-      line-height: 1.3;
-      overflow-wrap: anywhere;
-    }
-
-    .score {
-      color: var(--blue);
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .rest-list {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      padding: 0 12px 12px;
-    }
-
-    .empty {
-      border: 1px dashed #b8c5bb;
-      border-radius: 8px;
-      padding: 26px;
-      color: var(--muted);
-      text-align: center;
-      background: #fbfcfa;
-    }
-
-    .history {
-      display: grid;
-      gap: 8px;
-      max-height: 340px;
-      overflow: auto;
-    }
-
-    .history-item {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 10px 12px;
-      background: #fbfcfa;
-    }
-
-    .small-note {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-      margin-top: 10px;
-    }
-
-    .install-note {
-      border-left: 4px solid var(--brand-2);
-      background: #fff9df;
-      padding: 10px 12px;
-      border-radius: 7px;
-      color: #5a4510;
-      font-size: 13px;
-      line-height: 1.35;
-      margin-bottom: 14px;
-    }
-
+    .team strong { display: block; margin-bottom: 3px; font-size: 13px; }
+    .names { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+    .score { color: var(--blue); font-weight: 900; white-space: nowrap; }
+    .score-entry { display: grid; grid-template-columns: 1fr auto 1fr 1fr; gap: 8px; align-items: end; }
+    .score-entry input { text-align: center; font-size: 16px; font-weight: 900; }
+    .score-entry span { align-self: center; color: var(--muted); font-size: 12px; font-weight: 900; }
+    .rest-list { padding: 0 12px 12px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .empty { padding: 24px; border: 1px dashed #b8c5bb; border-radius: 8px; background: #fbfcfa; color: var(--muted); text-align: center; }
+    .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
     .toast {
       position: fixed;
       right: 18px;
       bottom: 18px;
-      background: #101712;
-      color: white;
-      border-radius: 8px;
-      padding: 12px 14px;
-      box-shadow: var(--shadow);
-      transform: translateY(18px);
-      opacity: 0;
-      transition: .2s ease;
-      pointer-events: none;
-      max-width: min(420px, calc(100vw - 36px));
       z-index: 20;
+      max-width: min(420px, calc(100vw - 36px));
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #102017;
+      color: white;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition: .2s ease;
     }
+    .toast.show { opacity: 1; transform: translateY(0); }
 
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
+    @media (max-width: 1020px) {
+      header { align-items: flex-start; flex-direction: column; }
+      .top-grid { grid-template-columns: 1fr; }
+      .settings, .stat-row, .request-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
-    @media (max-width: 980px) {
-      header {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .header-actions {
-        justify-content: flex-start;
-      }
-      .top-grid {
-        grid-template-columns: 1fr;
-      }
-      .settings, .stat-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 620px) {
+    @media (max-width: 650px) {
       main { padding: 12px; }
-      .form-grid, .settings, .stat-row {
-        grid-template-columns: 1fr;
-      }
-      .player {
-        grid-template-columns: 28px 1fr auto;
-      }
-      .player .danger {
-        grid-column: 2 / 4;
-      }
-      .team {
-        grid-template-columns: 1fr;
-      }
-      .score {
-        justify-self: start;
-      }
-      .score-entry {
-        grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr);
-      }
+      .form-grid, .settings, .stat-row, .request-grid { grid-template-columns: 1fr; }
+      .player { grid-template-columns: 28px 1fr auto; }
+      .player .go-home, .player .danger { grid-column: 2 / 4; }
+      .team, .score-entry { grid-template-columns: 1fr; }
+      .score-entry span { display: none; }
+      .score { justify-self: start; }
     }
   </style>
 </head>
@@ -513,10 +254,10 @@
   <div class="app">
     <header>
       <div class="brand">
-        <div class="mark">BD</div>
+        <div class="mark">NX</div>
         <div>
-          <h1>Pengatur Main Badminton</h1>
-          <p class="subtitle">Susun game otomatis: imbang, adil, dan kombinasi pemain lebih bervariasi.</p>
+          <h1>NEXA Badminton</h1>
+          <p class="subtitle">Selasa 20.00-23.00, skor 30, rotasi adil, grade otomatis, dan hitung bola.</p>
         </div>
       </div>
       <div class="header-actions">
@@ -534,88 +275,105 @@
             <button class="mini" id="sampleBtn">Isi Contoh</button>
           </div>
           <div class="panel-body">
-            <div class="install-note">Untuk iPhone: buka dari Safari, tekan tombol Share, lalu pilih Add to Home Screen. Setelah itu aplikasi bisa dibuka seperti app biasa.</div>
+            <div class="install-note">Untuk iPhone: buka dari Safari, tekan Share, lalu pilih Add to Home Screen.</div>
             <div class="form-grid">
-              <label>
-                Nama
-                <input id="nameInput" placeholder="Nama pemain">
-              </label>
-              <label>
-                Grade
+              <label>Nama <input id="nameInput" placeholder="Nama pemain"></label>
+              <label>Grade
                 <select id="gradeInput">
                   <option>A</option>
                   <option>B+</option>
                   <option>B</option>
-                  <option>C+</option>
                   <option>C</option>
-                  <option>D</option>
+                </select>
+              </label>
+              <label>Gender
+                <select id="genderInput">
+                  <option value="M">Putra</option>
+                  <option value="F">Putri</option>
                 </select>
               </label>
               <button class="primary" id="addBtn">Tambah</button>
             </div>
-
-            <div class="toolbar" style="margin: 14px 0 10px;">
+            <div class="toolbar">
               <button class="mini" id="selectAllBtn">Semua Hadir</button>
               <button class="mini" id="clearAttendBtn">Kosongkan Hadir</button>
               <button class="mini" id="sortBtn">Urut Grade</button>
             </div>
-
             <div class="players" id="players"></div>
-            <p class="small-note">Tips: centang pemain yang hadir saja. Grade dipakai sebagai nilai kekuatan untuk membuat tim lebih seimbang.</p>
+            <p class="small-note">Centang saat pemain datang. Tekan Pulang kalau pemain tidak ikut ronde berikutnya; datanya tetap tersimpan.</p>
           </div>
         </div>
 
         <div class="panel">
           <div class="panel-head">
-            <h2>Sesi Selasa</h2>
+            <h2>Sesi NEXA</h2>
             <button class="danger" id="resetSessionBtn">Reset Sesi</button>
           </div>
           <div class="panel-body">
             <div class="settings">
-              <label>
-                Tanggal
-                <input id="sessionDate" type="date">
-              </label>
-              <label>
-                Jumlah Lapangan
+              <label>Tanggal <input id="sessionDate" type="date"></label>
+              <label>Lapangan
                 <select id="courtCount">
-                  <option value="3">3 lapangan</option>
-                  <option value="4">4 lapangan</option>
+                  <option value="3">3 lapangan / 30 pemain</option>
+                  <option value="4">4 lapangan / 40 pemain</option>
+                  <option value="5">5 lapangan / 50 pemain</option>
                 </select>
               </label>
-              <label>
-                Jumlah Ronde
-                <input id="roundCount" type="number" min="1" max="12" value="5">
-              </label>
-              <label>
-                Maks. Main/Pemain
-                <input id="maxGames" type="number" min="1" max="12" value="3">
-              </label>
-              <label>
-                Update Grade
+              <label>Ronde <input id="roundCount" type="number" min="1" max="20" value="6"></label>
+              <label>Maks. Main <input id="maxGames" type="number" min="1" max="20" value="10"></label>
+              <label>Skor Target <input id="targetScore" type="number" min="15" max="31" value="30"></label>
+              <label>Update Grade
                 <select id="autoGrade">
                   <option value="yes">Otomatis dari skor</option>
                   <option value="no">Manual saja</option>
                 </select>
               </label>
             </div>
-
             <div class="toolbar">
               <button class="warning" id="generateBtn">Generate Jadwal</button>
               <button id="appendRoundBtn">Tambah Ronde</button>
               <button class="primary" id="saveSessionBtn" disabled>Simpan Sesi</button>
               <button id="copyBtn" disabled>Copy Jadwal</button>
             </div>
-
             <div class="stat-row">
-              <div class="stat"><strong id="presentStat">0</strong><span>Pemain hadir</span></div>
-              <div class="stat"><strong id="courtStat">3</strong><span>Lapangan aktif</span></div>
-              <div class="stat"><strong id="gameStat">0</strong><span>Total game</span></div>
+              <div class="stat"><strong id="presentStat">0</strong><span>Pemain aktif</span></div>
+              <div class="stat"><strong id="courtStat">3</strong><span>Lapangan</span></div>
+              <div class="stat"><strong id="gameStat">0</strong><span>Total match</span></div>
               <div class="stat"><strong id="balanceStat">-</strong><span>Rata-rata selisih</span></div>
+              <div class="stat"><strong id="ballStat">0</strong><span>Total bola sesi</span></div>
             </div>
-
-            <p class="small-note">Kalau pemain datang bertahap, centang pemain yang baru datang lalu tekan Tambah Ronde. Mesin jadwal akan memprioritaskan pemain yang jatah mainnya masih kurang.</p>
+            <p class="small-note">Rotasi dihitung dari porsi main sejak pemain datang, jadi pemain jam 21.00 tidak dikejar sampai totalnya sama dengan pemain jam 20.00.</p>
           </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Request Match</h2>
+          <span class="badge gold">Preferensi</span>
+        </div>
+        <div class="panel-body">
+          <div class="request-grid">
+            <label>Tipe Request
+              <select id="requestType">
+                <option value="partner">Mau partner</option>
+                <option value="opponent">Mau lawan</option>
+                <option value="avoid_partner">Jangan partner</option>
+                <option value="avoid_opponent">Jangan lawan</option>
+              </select>
+            </label>
+            <label>Pemain 1 <select id="requestPlayerA"></select></label>
+            <label>Pemain 2 <select id="requestPlayerB"></select></label>
+            <label>Prioritas
+              <select id="requestPriority">
+                <option value="soft">Boleh kalau imbang</option>
+                <option value="strong">Usahakan kuat</option>
+              </select>
+            </label>
+            <button class="primary" id="addRequestBtn">Tambah Request</button>
+          </div>
+          <div class="request-list" id="requestList"></div>
+          <p class="small-note">Request dipakai sebagai bobot. Sistem tetap menjaga match imbang, variasi partner/lawan, dan format ganda.</p>
         </div>
       </section>
 
@@ -631,11 +389,21 @@
 
       <section class="panel">
         <div class="panel-head">
+          <h2>Laporan Bola</h2>
+          <span class="badge blue">Per pemain</span>
+        </div>
+        <div class="panel-body">
+          <div class="report-grid" id="ballReport"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
           <h2>Riwayat Sesi</h2>
           <button class="danger mini" id="clearHistoryBtn">Hapus Riwayat</button>
         </div>
         <div class="panel-body">
-          <div class="history" id="history"></div>
+          <div class="request-list" id="history"></div>
         </div>
       </section>
     </main>
@@ -644,52 +412,59 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    const STORAGE_KEY = "badminton-auto-scheduler-v1";
-    const gradeScore = { A: 5, "B+": 4.5, B: 4, "C+": 3.5, C: 3, D: 2.5 };
-    const gradeOrder = ["D", "C", "C+", "B", "B+", "A"];
+    const STORAGE_KEY = "nexa-badminton-scheduler-v2";
+    const oldStorageKey = "badminton-auto-scheduler-v1";
+    const gradeScore = { A: 4.85, "B+": 4.25, B: 3.65, C: 3.0 };
+    const gradeRank = { C: 0, B: 1, "B+": 2, A: 3 };
+    const gradeList = ["C", "B", "B+", "A"];
     const samplePlayers = [
-      ["Andi", "B+"], ["Bima", "B"], ["Chandra", "A"], ["Dodi", "C+"], ["Eka", "B"],
-      ["Fajar", "A"], ["Gilang", "B+"], ["Hendra", "C"], ["Iwan", "B"], ["Joko", "C+"],
-      ["Kurnia", "B+"], ["Lukman", "B"], ["Maman", "C"], ["Nando", "A"], ["Oki", "B"],
-      ["Pras", "C+"], ["Qori", "B+"], ["Raka", "B"], ["Surya", "C"], ["Tono", "B+"],
-      ["Umar", "B"], ["Vino", "C+"], ["Wahyu", "A"], ["Yudi", "B"], ["Zaki", "C"],
-      ["Arif", "B+"], ["Bagus", "B"], ["Cahyo", "C+"], ["Dimas", "B"], ["Erwin", "C"],
-      ["Farhan", "A"], ["Galih", "B+"], ["Haris", "B"], ["Ilham", "C+"], ["Janu", "C"],
-      ["Kevin", "B"], ["Lutfi", "B+"], ["Miko", "C"], ["Nugroho", "B"], ["Oscar", "C+"]
+      ["Andi","A","M"],["Bima","B+","M"],["Chandra","B","M"],["Dodi","C","M"],["Eka","B","M"],
+      ["Fajar","A","M"],["Gilang","B+","M"],["Hendra","B","M"],["Iwan","C","M"],["Joko","B","M"],
+      ["Kurnia","B+","M"],["Lukman","B","M"],["Maman","C","M"],["Nando","A","M"],["Oki","B","M"],
+      ["Pras","B+","M"],["Qori","B","M"],["Raka","C","M"],["Surya","B+","M"],["Tono","B","M"],
+      ["Umar","A","M"],["Vino","B+","M"],["Wahyu","B","M"],["Yudi","C","M"],["Zaki","B","M"],
+      ["Ayu","B+","F"],["Bella","B","F"],["Citra","C","F"],["Dewi","A","F"],["Elsa","B","F"],
+      ["Fitri","B+","F"],["Gita","B","F"],["Hana","C","F"],["Intan","B+","F"],["Jeni","B","F"],
+      ["Kiki","C","F"],["Lia","A","F"],["Maya","B+","F"],["Nia","B","F"],["Olive","C","F"],
+      ["Putri","B","F"],["Rani","B+","F"],["Sari","C","F"],["Tia","A","F"],["Uli","B","F"],
+      ["Vera","B+","F"],["Wina","B","F"],["Yana","C","F"],["Zara","B+","F"],["Sherly","B","F"]
     ];
 
+    const $ = (id) => document.getElementById(id);
     const state = loadState();
     let currentSchedule = [];
-
-    const $ = (id) => document.getElementById(id);
-    const playersEl = $("players");
-    const scheduleEl = $("schedule");
-    const historyEl = $("history");
-    const toastEl = $("toast");
+    let currentSessionSaved = false;
 
     function defaultState() {
-      return {
-        players: [],
-        sessions: [],
-        pairCounts: {},
-        opponentCounts: {},
-        scoreHistory: []
-      };
+      return { players: [], sessions: [], pairCounts: {}, opponentCounts: {}, ballTotals: {}, scoreHistory: [], requests: [] };
     }
 
     function loadState() {
       try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (!saved || !Array.isArray(saved.players)) return defaultState();
-      const merged = { ...defaultState(), ...saved };
-      merged.players = merged.players.map((player) => ({
-        rating: gradeScore[player.grade] || 3,
-        ...player
-      }));
-      return merged;
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(oldStorageKey);
+        const saved = raw ? JSON.parse(raw) : defaultState();
+        if (!Array.isArray(saved.players)) return defaultState();
+        const merged = { ...defaultState(), ...saved };
+        merged.players = merged.players.map((p, index) => normalizePlayer(p, index));
+        merged.requests = Array.isArray(merged.requests) ? merged.requests : [];
+        return merged;
       } catch {
         return defaultState();
       }
+    }
+
+    function normalizePlayer(player, index = 0) {
+      const grade = gradeScore[player.grade] ? player.grade : nearestGrade(player.rating || gradeScore.B);
+      const gender = player.gender || (index % 5 === 0 ? "F" : "M");
+      return {
+        id: player.id || uid(),
+        name: player.name || "Pemain",
+        grade,
+        gender,
+        rating: Number.isFinite(Number(player.rating)) ? Number(player.rating) : gradeScore[grade],
+        present: Boolean(player.present),
+        arrivedRound: player.present ? (player.arrivedRound || 1) : null
+      };
     }
 
     function saveState() {
@@ -700,297 +475,347 @@
       return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
     }
 
-    function pairKey(a, b) {
-      return [a, b].sort().join("|");
-    }
-
     function showToast(message) {
-      toastEl.textContent = message;
-      toastEl.classList.add("show");
-      setTimeout(() => toastEl.classList.remove("show"), 2400);
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2400);
     }
 
     function todayInputValue() {
       return new Date().toISOString().slice(0, 10);
     }
 
+    function playerRating(player) {
+      return Number.isFinite(Number(player.rating)) ? Number(player.rating) : gradeScore[player.grade];
+    }
+
+    function nearestGrade(rating) {
+      if (rating >= 4.55) return "A";
+      if (rating >= 3.95) return "B+";
+      if (rating >= 3.3) return "B";
+      return "C";
+    }
+
+    function pairKey(a, b) {
+      return [a, b].sort().join("|");
+    }
+
+    function genderText(gender) {
+      return gender === "F" ? "Putri" : "Putra";
+    }
+
+    function teamType(team) {
+      const genders = team.map((p) => p.gender).sort().join("");
+      if (genders === "MM") return "Ganda Putra";
+      if (genders === "FF") return "Ganda Putri";
+      return "Ganda Campuran";
+    }
+
+    function teamScore(team) {
+      return team.reduce((sum, p) => sum + playerRating(p), 0);
+    }
+
+    function setPlayerPresence(player, present) {
+      player.present = present;
+      player.arrivedRound = present ? (currentSchedule.length + 1 || 1) : null;
+    }
+
     function renderPlayers() {
-      playersEl.innerHTML = "";
+      const container = $("players");
+      container.innerHTML = "";
       if (!state.players.length) {
-        playersEl.innerHTML = `<div class="empty">Belum ada pemain. Tambahkan pemain atau pakai data contoh.</div>`;
+        container.innerHTML = `<div class="empty">Belum ada pemain. Tambahkan pemain atau pakai data contoh NEXA.</div>`;
+        renderRequestOptions();
         updateStats();
         return;
       }
-
       state.players.forEach((player) => {
         const row = document.createElement("div");
         row.className = "player";
         row.innerHTML = `
           <input type="checkbox" ${player.present ? "checked" : ""} aria-label="Hadir">
-          <div class="player-name">${escapeHtml(player.name)}<div class="small-note">Rating ${playerRating(player).toFixed(2)}</div></div>
+          <div class="player-name">
+            ${escapeHtml(player.name)}
+            <div class="small-note">${genderText(player.gender)} · ${player.present ? `Datang ronde ${player.arrivedRound || 1}` : "Belum hadir / sudah pulang"} · Rating ${playerRating(player).toFixed(2)}</div>
+          </div>
           <span class="badge">${player.grade}</span>
+          <button class="go-home mini">Pulang</button>
           <button class="danger mini">Hapus</button>
         `;
         row.querySelector("input").addEventListener("change", (event) => {
-          player.present = event.target.checked;
-          saveState();
-          updateStats();
-        });
-        row.querySelector("button").addEventListener("click", () => {
-          state.players = state.players.filter((item) => item.id !== player.id);
+          setPlayerPresence(player, event.target.checked);
           saveState();
           renderAll();
         });
-        playersEl.appendChild(row);
+        row.querySelector(".go-home").addEventListener("click", () => {
+          setPlayerPresence(player, false);
+          saveState();
+          renderAll();
+          showToast(`${player.name} ditandai pulang.`);
+        });
+        row.querySelector(".danger").addEventListener("click", () => {
+          state.players = state.players.filter((p) => p.id !== player.id);
+          state.requests = state.requests.filter((r) => r.a !== player.id && r.b !== player.id);
+          saveState();
+          renderAll();
+        });
+        container.appendChild(row);
       });
+      renderRequestOptions();
       updateStats();
     }
 
+    function renderRequestOptions() {
+      const options = state.players.map((p) => `<option value="${p.id}">${escapeHtml(p.name)} (${p.grade})</option>`).join("");
+      $("requestPlayerA").innerHTML = options;
+      $("requestPlayerB").innerHTML = options;
+      renderRequests();
+    }
+
+    function renderRequests() {
+      const list = $("requestList");
+      list.innerHTML = "";
+      if (!state.requests.length) {
+        list.innerHTML = `<div class="empty">Belum ada request match.</div>`;
+        return;
+      }
+      state.requests.forEach((request) => {
+        const a = findPlayer(request.a);
+        const b = findPlayer(request.b);
+        const item = document.createElement("div");
+        item.className = "request-item";
+        item.innerHTML = `
+          <div>
+            <strong>${requestLabel(request.type)}</strong>
+            <div class="small-note">${escapeHtml(a?.name || "Pemain")} + ${escapeHtml(b?.name || "Pemain")} · ${request.priority === "strong" ? "Usahakan kuat" : "Boleh kalau imbang"}</div>
+          </div>
+          <button class="danger mini">Hapus</button>
+        `;
+        item.querySelector("button").addEventListener("click", () => {
+          state.requests = state.requests.filter((r) => r.id !== request.id);
+          saveState();
+          renderRequests();
+        });
+        list.appendChild(item);
+      });
+    }
+
+    function requestLabel(type) {
+      return {
+        partner: "Mau partner",
+        opponent: "Mau lawan",
+        avoid_partner: "Jangan partner",
+        avoid_opponent: "Jangan lawan"
+      }[type] || "Request";
+    }
+
+    function findPlayer(id) {
+      return state.players.find((p) => p.id === id);
+    }
+
     function renderSchedule() {
-      scheduleEl.innerHTML = "";
+      const container = $("schedule");
+      container.innerHTML = "";
       if (!currentSchedule.length) {
-        scheduleEl.innerHTML = `<div class="empty">Klik Generate Jadwal setelah memilih pemain yang hadir.</div>`;
+        container.innerHTML = `<div class="empty">Pilih pemain aktif, lalu klik Generate Jadwal.</div>`;
         $("scheduleStatus").textContent = "Belum dibuat";
         $("saveSessionBtn").disabled = true;
         $("copyBtn").disabled = true;
         updateStats();
+        renderBallReport();
         return;
       }
-
       currentSchedule.forEach((round) => {
         const roundEl = document.createElement("div");
         roundEl.className = "round";
-        const restText = round.resting.length
-          ? `Istirahat: ${round.resting.map((p) => p.name).join(", ")}`
-          : "Semua pemain terpakai di ronde ini";
+        const restText = round.resting.length ? `Istirahat: ${round.resting.map((p) => p.name).join(", ")}` : "Semua pemain terpakai di ronde ini";
         roundEl.innerHTML = `
-          <div class="round-head">
-            <span>Ronde ${round.number}</span>
-            <span>${round.games.length} game</span>
-          </div>
+          <div class="round-head"><span>Ronde ${round.number}</span><span>${round.games.length} match</span></div>
           <div class="courts">
             ${round.games.map((game) => `
               <div class="court">
                 <div class="court-title">
                   <span>Lapangan ${game.court}</span>
-                  <span>Selisih ${game.diff.toFixed(1)}</span>
+                  <span>${teamType(game.teamA)} vs ${teamType(game.teamB)}</span>
                 </div>
                 <div class="teams">
                   <div class="team">
-                    <div>
-                      <strong>Tim A</strong>
-                      <div class="names">${game.teamA.map(nameWithGrade).join(" + ")}</div>
-                    </div>
-                    <div class="score">${teamScore(game.teamA).toFixed(1)}</div>
+                    <div><strong>Tim A <span class="badge blue">${teamType(game.teamA)}</span></strong><div class="names">${game.teamA.map(nameWithGrade).join(" + ")}</div></div>
+                    <div class="score">${teamScore(game.teamA).toFixed(2)}</div>
                   </div>
                   <div class="team">
-                    <div>
-                      <strong>Tim B</strong>
-                      <div class="names">${game.teamB.map(nameWithGrade).join(" + ")}</div>
-                    </div>
-                    <div class="score">${teamScore(game.teamB).toFixed(1)}</div>
+                    <div><strong>Tim B <span class="badge blue">${teamType(game.teamB)}</span></strong><div class="names">${game.teamB.map(nameWithGrade).join(" + ")}</div></div>
+                    <div class="score">${teamScore(game.teamB).toFixed(2)}</div>
                   </div>
                 </div>
                 <div class="score-entry">
-                  <input inputmode="numeric" pattern="[0-9]*" min="0" max="99" type="number" placeholder="Skor A" value="${game.scoreA ?? ""}" data-score="A" data-round="${round.number}" data-court="${game.court}">
+                  <label>Skor A <input inputmode="numeric" min="0" max="${targetScore()}" type="number" placeholder="0-${targetScore()}" value="${game.scoreA ?? ""}" data-field="scoreA" data-round="${round.number}" data-court="${game.court}"></label>
                   <span>VS</span>
-                  <input inputmode="numeric" pattern="[0-9]*" min="0" max="99" type="number" placeholder="Skor B" value="${game.scoreB ?? ""}" data-score="B" data-round="${round.number}" data-court="${game.court}">
+                  <label>Skor B <input inputmode="numeric" min="0" max="${targetScore()}" type="number" placeholder="0-${targetScore()}" value="${game.scoreB ?? ""}" data-field="scoreB" data-round="${round.number}" data-court="${game.court}"></label>
+                  <label>Bola <input inputmode="numeric" min="0" max="20" type="number" placeholder="Bola" value="${game.balls ?? ""}" data-field="balls" data-round="${round.number}" data-court="${game.court}"></label>
                 </div>
               </div>
             `).join("")}
           </div>
           <div class="rest-list">${escapeHtml(restText)}</div>
         `;
-        scheduleEl.appendChild(roundEl);
+        container.appendChild(roundEl);
       });
-
       $("scheduleStatus").textContent = "Siap disimpan";
       $("saveSessionBtn").disabled = false;
       $("copyBtn").disabled = false;
       updateStats();
+      renderBallReport();
     }
 
     function nameWithGrade(player) {
       return `${escapeHtml(player.name)} <span class="badge">${player.grade}</span>`;
     }
 
-    function teamScore(team) {
-      return team.reduce((sum, player) => sum + playerRating(player), 0);
-    }
-
-    function playerRating(player) {
-      return Number.isFinite(Number(player.rating)) ? Number(player.rating) : (gradeScore[player.grade] || 3);
-    }
-
-    function gradeFromRating(rating) {
-      if (rating >= 4.75) return "A";
-      if (rating >= 4.25) return "B+";
-      if (rating >= 3.75) return "B";
-      if (rating >= 3.25) return "C+";
-      if (rating >= 2.75) return "C";
-      return "D";
-    }
-
-    function renderHistory() {
-      historyEl.innerHTML = "";
-      if (!state.sessions.length) {
-        historyEl.innerHTML = `<div class="empty">Riwayat sesi yang disimpan akan muncul di sini.</div>`;
-        return;
-      }
-
-      [...state.sessions].reverse().forEach((session) => {
-        const item = document.createElement("div");
-        item.className = "history-item";
-        item.innerHTML = `
-          <div>
-            <strong>${escapeHtml(session.date)}</strong>
-            <div class="small-note">${session.presentCount} pemain, ${session.courts} lapangan, ${session.games} game</div>
-          </div>
-          <button class="mini">Lihat</button>
-        `;
-        item.querySelector("button").addEventListener("click", () => {
-          currentSchedule = session.schedule;
-          renderSchedule();
-          showToast("Riwayat sesi dibuka.");
-          window.scrollTo({ top: document.body.scrollHeight * .35, behavior: "smooth" });
-        });
-        historyEl.appendChild(item);
-      });
-    }
-
-    function renderAll() {
-      renderPlayers();
-      renderSchedule();
-      renderHistory();
+    function targetScore() {
+      return Number($("targetScore").value) || 30;
     }
 
     function updateStats() {
       const present = state.players.filter((p) => p.present).length;
       const games = currentSchedule.reduce((sum, round) => sum + round.games.length, 0);
       const diffs = currentSchedule.flatMap((round) => round.games.map((game) => game.diff));
-      const avgDiff = diffs.length ? (diffs.reduce((a, b) => a + b, 0) / diffs.length).toFixed(2) : "-";
+      const balls = currentSchedule.flatMap((round) => round.games).reduce((sum, game) => sum + (Number(game.balls) || 0), 0);
       $("presentStat").textContent = present;
       $("courtStat").textContent = $("courtCount").value;
       $("gameStat").textContent = games;
-      $("balanceStat").textContent = avgDiff;
+      $("balanceStat").textContent = diffs.length ? (diffs.reduce((a, b) => a + b, 0) / diffs.length).toFixed(2) : "-";
+      $("ballStat").textContent = balls;
+    }
+
+    function renderBallReport() {
+      const totals = computeSessionBallTotals();
+      const report = $("ballReport");
+      const rows = state.players
+        .map((p) => ({ player: p, balls: totals[p.id] || 0, saved: state.ballTotals[p.id] || 0 }))
+        .filter((row) => row.balls || row.saved)
+        .sort((a, b) => (b.balls + b.saved) - (a.balls + a.saved) || a.player.name.localeCompare(b.player.name));
+      report.innerHTML = rows.length ? rows.map((row) => `
+        <div class="report-row">
+          <div><strong>${escapeHtml(row.player.name)}</strong><div class="small-note">${row.player.grade} · ${genderText(row.player.gender)}</div></div>
+          <span class="badge gold">Sesi ${row.balls} · Total ${currentSessionSaved ? row.saved : row.balls + row.saved}</span>
+        </div>
+      `).join("") : `<div class="empty">Isi jumlah bola di match untuk melihat laporan bola per pemain.</div>`;
+    }
+
+    function computeSessionBallTotals() {
+      const totals = {};
+      currentSchedule.forEach((round) => {
+        round.games.forEach((game) => {
+          const balls = Number(game.balls) || 0;
+          if (!balls) return;
+          [...game.teamA, ...game.teamB].forEach((p) => {
+            totals[p.id] = (totals[p.id] || 0) + balls;
+          });
+        });
+      });
+      return totals;
     }
 
     function addPlayer() {
       const name = $("nameInput").value.trim();
       const grade = $("gradeInput").value;
-      if (!name) {
-        showToast("Nama pemain belum diisi.");
-        return;
-      }
-      if (state.players.some((player) => player.name.toLowerCase() === name.toLowerCase())) {
-        showToast("Nama pemain sudah ada.");
-        return;
-      }
-      state.players.push({ id: uid(), name, grade, rating: gradeScore[grade], present: true });
+      const gender = $("genderInput").value;
+      if (!name) return showToast("Nama pemain belum diisi.");
+      if (state.players.some((p) => p.name.toLowerCase() === name.toLowerCase())) return showToast("Nama pemain sudah ada.");
+      state.players.push({ id: uid(), name, grade, gender, rating: gradeScore[grade], present: true, arrivedRound: currentSchedule.length + 1 || 1 });
       $("nameInput").value = "";
       saveState();
-      renderPlayers();
+      renderAll();
       showToast("Pemain ditambahkan.");
+    }
+
+    function addRequest() {
+      const a = $("requestPlayerA").value;
+      const b = $("requestPlayerB").value;
+      if (!a || !b || a === b) return showToast("Pilih dua pemain yang berbeda.");
+      state.requests.push({ id: uid(), type: $("requestType").value, a, b, priority: $("requestPriority").value });
+      saveState();
+      renderRequests();
+      showToast("Request ditambahkan.");
     }
 
     function generateSchedule(options = {}) {
       const append = options.append === true;
-      const presentPlayers = state.players.filter((player) => player.present);
+      const presentPlayers = state.players.filter((p) => p.present);
       const courts = Number($("courtCount").value);
       const rounds = append ? 1 : Number($("roundCount").value);
       const maxGames = Number($("maxGames").value);
-
-      if (presentPlayers.length < 4) {
-        showToast("Minimal perlu 4 pemain hadir.");
-        return;
-      }
-
+      if (presentPlayers.length < 4) return showToast("Minimal perlu 4 pemain aktif.");
       if (!append) currentSchedule = [];
-      const sessionMemory = buildCurrentSessionMemory(presentPlayers);
-      const playCounts = sessionMemory.playCounts;
-      const sessionPairs = sessionMemory.sessionPairs;
-      const sessionOpponents = sessionMemory.sessionOpponents;
+      currentSessionSaved = false;
+      presentPlayers.forEach((p) => {
+        if (!append) p.arrivedRound = 1;
+        if (!p.arrivedRound) p.arrivedRound = currentSchedule.length + 1 || 1;
+      });
+      const memory = buildCurrentSessionMemory(presentPlayers);
       const startRound = currentSchedule.length + 1;
       let addedRounds = 0;
-
       for (let roundNumber = startRound; roundNumber < startRound + rounds; roundNumber++) {
-        const available = [...presentPlayers].sort((a, b) => {
-          const byCount = playCounts[a.id] - playCounts[b.id];
-          if (byCount) return byCount;
-          return Math.random() - .5;
-        });
         const used = new Set();
         const games = [];
-
         for (let court = 1; court <= courts; court++) {
-          const candidates = available.filter((p) => !used.has(p.id) && playCounts[p.id] < maxGames);
+          const candidates = presentPlayers
+            .filter((p) => !used.has(p.id) && (memory.playCounts[p.id] || 0) < maxGames)
+            .sort((a, b) => {
+              const byLoad = availabilityLoad(a, roundNumber, memory.playCounts) - availabilityLoad(b, roundNumber, memory.playCounts);
+              if (Math.abs(byLoad) > 0.001) return byLoad;
+              return playerRating(b) - playerRating(a);
+            });
           if (candidates.length < 4) break;
-          const game = chooseBestGame(candidates, playCounts, sessionPairs, sessionOpponents);
+          const game = chooseBestGame(candidates, memory, roundNumber);
           if (!game) break;
-
           game.court = court;
           games.push(game);
-          [...game.teamA, ...game.teamB].forEach((player) => {
-            used.add(player.id);
-            playCounts[player.id]++;
+          [...game.teamA, ...game.teamB].forEach((p) => {
+            used.add(p.id);
+            memory.playCounts[p.id] = (memory.playCounts[p.id] || 0) + 1;
           });
-          incrementPair(sessionPairs, game.teamA[0].id, game.teamA[1].id);
-          incrementPair(sessionPairs, game.teamB[0].id, game.teamB[1].id);
-          incrementOpponents(sessionOpponents, game.teamA, game.teamB);
+          incrementPair(memory.sessionPairs, game.teamA[0].id, game.teamA[1].id);
+          incrementPair(memory.sessionPairs, game.teamB[0].id, game.teamB[1].id);
+          incrementOpponents(memory.sessionOpponents, game.teamA, game.teamB);
         }
-
-        const resting = presentPlayers.filter((player) => !used.has(player.id));
         if (!games.length) break;
-        currentSchedule.push({ number: roundNumber, games, resting });
+        currentSchedule.push({ number: roundNumber, games, resting: presentPlayers.filter((p) => !used.has(p.id)) });
         addedRounds++;
       }
-
-      if (!currentSchedule.length) {
-        showToast("Jadwal tidak bisa dibuat dengan batas main saat ini.");
-        return;
-      }
-      if (append && !addedRounds) {
-        showToast("Ronde tambahan tidak bisa dibuat. Cek jumlah pemain hadir atau batas main.");
-        return;
-      }
-      renderSchedule();
+      if (!currentSchedule.length || (append && !addedRounds)) return showToast("Jadwal tidak bisa dibuat. Cek jumlah pemain aktif atau batas main.");
+      saveState();
+      renderAll();
       showToast(append ? "Ronde tambahan berhasil dibuat." : "Jadwal berhasil dibuat.");
     }
 
     function buildCurrentSessionMemory(presentPlayers) {
+      const presentIds = new Set(presentPlayers.map((p) => p.id));
       const playCounts = Object.fromEntries(presentPlayers.map((p) => [p.id, 0]));
       const sessionPairs = {};
       const sessionOpponents = {};
-      const presentIds = new Set(presentPlayers.map((p) => p.id));
-
       currentSchedule.forEach((round) => {
         round.games.forEach((game) => {
-          const players = [...game.teamA, ...game.teamB].filter((player) => presentIds.has(player.id));
-          players.forEach((player) => {
-            playCounts[player.id] = (playCounts[player.id] || 0) + 1;
-          });
-          if (game.teamA.every((p) => presentIds.has(p.id))) {
-            incrementPair(sessionPairs, game.teamA[0].id, game.teamA[1].id);
-          }
-          if (game.teamB.every((p) => presentIds.has(p.id))) {
-            incrementPair(sessionPairs, game.teamB[0].id, game.teamB[1].id);
-          }
-          incrementOpponents(
-            sessionOpponents,
-            game.teamA.filter((p) => presentIds.has(p.id)),
-            game.teamB.filter((p) => presentIds.has(p.id))
-          );
+          [...game.teamA, ...game.teamB].filter((p) => presentIds.has(p.id)).forEach((p) => playCounts[p.id] = (playCounts[p.id] || 0) + 1);
+          if (game.teamA.every((p) => presentIds.has(p.id))) incrementPair(sessionPairs, game.teamA[0].id, game.teamA[1].id);
+          if (game.teamB.every((p) => presentIds.has(p.id))) incrementPair(sessionPairs, game.teamB[0].id, game.teamB[1].id);
+          incrementOpponents(sessionOpponents, game.teamA.filter((p) => presentIds.has(p.id)), game.teamB.filter((p) => presentIds.has(p.id)));
         });
       });
-
       return { playCounts, sessionPairs, sessionOpponents };
     }
 
-    function chooseBestGame(candidates, playCounts, sessionPairs, sessionOpponents) {
-      const shuffled = [...candidates].sort(() => Math.random() - .5);
-      const limited = shuffled.slice(0, Math.min(shuffled.length, 14));
-      let best = null;
+    function availabilityLoad(player, roundNumber, playCounts) {
+      const arrivedRound = Number(player.arrivedRound) || 1;
+      const availableRounds = Math.max(1, roundNumber - arrivedRound + 1);
+      return (playCounts[player.id] || 0) / availableRounds;
+    }
 
+    function chooseBestGame(candidates, memory, roundNumber) {
+      const limited = [...candidates].sort(() => Math.random() - .5).slice(0, Math.min(16, candidates.length));
+      let best = null;
       for (let a = 0; a < limited.length - 3; a++) {
         for (let b = a + 1; b < limited.length - 2; b++) {
           for (let c = b + 1; c < limited.length - 1; c++) {
@@ -1003,22 +828,77 @@
               ];
               splits.forEach(([teamA, teamB]) => {
                 const diff = Math.abs(teamScore(teamA) - teamScore(teamB));
-                const fatigue = [...teamA, ...teamB].reduce((sum, p) => sum + playCounts[p.id] * .2, 0);
-                const repeatPair =
-                  getPairPenalty(teamA, sessionPairs) + getPairPenalty(teamB, sessionPairs);
-                const repeatOpponent = getOpponentPenalty(teamA, teamB, sessionOpponents);
-                const gradeSpread = Math.abs((playerRating(teamA[0]) - playerRating(teamA[1]))) * .05
-                  + Math.abs((playerRating(teamB[0]) - playerRating(teamB[1]))) * .05;
-                const score = diff * 10 + fatigue + repeatPair * 5 + repeatOpponent * 3 + gradeSpread;
-                if (!best || score < best.score) {
-                  best = { teamA, teamB, diff, score };
-                }
+                const score =
+                  diff * 14 +
+                  formatPenalty(teamA, teamB, diff) +
+                  partnerGradePenalty(teamA) + partnerGradePenalty(teamB) +
+                  repeatPenalty(teamA, teamB, memory) +
+                  fairnessPenalty([...teamA, ...teamB], roundNumber, memory.playCounts) +
+                  requestPenalty(teamA, teamB);
+                if (!best || score < best.score) best = { teamA, teamB, diff, score };
               });
             }
           }
         }
       }
       return best;
+    }
+
+    function partnerGradePenalty(team) {
+      const gap = Math.abs(gradeRank[team[0].grade] - gradeRank[team[1].grade]);
+      const hasStrong = team.some((p) => p.grade === "A" || p.grade === "B+");
+      if (hasStrong && gap === 0) return 3.5;
+      if (gap === 1) return -1.5;
+      if (gap === 2) return .6;
+      if (gap >= 3) return 4;
+      return .4;
+    }
+
+    function formatPenalty(teamA, teamB, diff) {
+      const typeA = teamType(teamA);
+      const typeB = teamType(teamB);
+      if (typeA === typeB) return -2.5;
+      return diff <= .45 ? 1.5 : 7;
+    }
+
+    function repeatPenalty(teamA, teamB, memory) {
+      const pairPenalty =
+        pairCount(teamA[0].id, teamA[1].id, memory.sessionPairs, state.pairCounts) * 5 +
+        pairCount(teamB[0].id, teamB[1].id, memory.sessionPairs, state.pairCounts) * 5;
+      let opponentPenalty = 0;
+      teamA.forEach((a) => teamB.forEach((b) => opponentPenalty += pairCount(a.id, b.id, memory.sessionOpponents, state.opponentCounts) * 2.5));
+      return pairPenalty + opponentPenalty;
+    }
+
+    function fairnessPenalty(players, roundNumber, playCounts) {
+      return players.reduce((sum, p) => sum + availabilityLoad(p, roundNumber, playCounts) * 2, 0);
+    }
+
+    function requestPenalty(teamA, teamB) {
+      let score = 0;
+      state.requests.forEach((request) => {
+        const weight = request.priority === "strong" ? 7 : 3;
+        const together = sameTeam(request.a, request.b, teamA) || sameTeam(request.a, request.b, teamB);
+        const opposed = opposedTeam(request.a, request.b, teamA, teamB);
+        if (request.type === "partner") score += together ? -weight : 0;
+        if (request.type === "opponent") score += opposed ? -weight : 0;
+        if (request.type === "avoid_partner") score += together ? weight * 2 : 0;
+        if (request.type === "avoid_opponent") score += opposed ? weight * 2 : 0;
+      });
+      return score;
+    }
+
+    function sameTeam(a, b, team) {
+      return team.some((p) => p.id === a) && team.some((p) => p.id === b);
+    }
+
+    function opposedTeam(a, b, teamA, teamB) {
+      return (teamA.some((p) => p.id === a) && teamB.some((p) => p.id === b)) || (teamA.some((p) => p.id === b) && teamB.some((p) => p.id === a));
+    }
+
+    function pairCount(a, b, sessionMap, historyMap) {
+      const key = pairKey(a, b);
+      return (historyMap[key] || 0) + (sessionMap[key] || 0) * 2;
     }
 
     function incrementPair(map, a, b) {
@@ -1030,104 +910,62 @@
       teamA.forEach((a) => teamB.forEach((b) => incrementPair(map, a.id, b.id)));
     }
 
-    function getPairPenalty(team, sessionPairs) {
-      const key = pairKey(team[0].id, team[1].id);
-      return (state.pairCounts[key] || 0) + (sessionPairs[key] || 0) * 2;
-    }
-
-    function getOpponentPenalty(teamA, teamB, sessionOpponents) {
-      let penalty = 0;
-      teamA.forEach((a) => {
-        teamB.forEach((b) => {
-          const key = pairKey(a.id, b.id);
-          penalty += (state.opponentCounts[key] || 0) + (sessionOpponents[key] || 0) * 2;
-        });
-      });
-      return penalty;
-    }
-
     function saveCurrentSession() {
       if (!currentSchedule.length) return;
       const ratingChanges = $("autoGrade").value === "yes" ? applyScoreRatings() : [];
-      currentSchedule.forEach((round) => {
-        round.games.forEach((game) => {
-          incrementPair(state.pairCounts, game.teamA[0].id, game.teamA[1].id);
-          incrementPair(state.pairCounts, game.teamB[0].id, game.teamB[1].id);
-          incrementOpponents(state.opponentCounts, game.teamA, game.teamB);
-        });
-      });
-
+      const sessionBalls = computeSessionBallTotals();
+      Object.entries(sessionBalls).forEach(([id, balls]) => state.ballTotals[id] = (state.ballTotals[id] || 0) + balls);
+      currentSchedule.forEach((round) => round.games.forEach((game) => {
+        incrementPair(state.pairCounts, game.teamA[0].id, game.teamA[1].id);
+        incrementPair(state.pairCounts, game.teamB[0].id, game.teamB[1].id);
+        incrementOpponents(state.opponentCounts, game.teamA, game.teamB);
+      }));
       state.sessions.push({
         id: uid(),
         date: $("sessionDate").value,
         courts: Number($("courtCount").value),
-        presentCount: state.players.filter((p) => p.present).length,
-        games: currentSchedule.reduce((sum, round) => sum + round.games.length, 0),
+        presentCount: new Set(currentSchedule.flatMap((r) => r.games.flatMap((g) => [...g.teamA, ...g.teamB].map((p) => p.id)))).size,
+        games: currentSchedule.reduce((sum, r) => sum + r.games.length, 0),
+        balls: Object.values(sessionBalls).reduce((a, b) => a + b, 0),
         ratingChanges,
         schedule: currentSchedule
       });
+      currentSessionSaved = true;
       saveState();
-      renderPlayers();
-      renderHistory();
-      showToast(ratingChanges.length ? "Sesi tersimpan dan grade diperbarui." : "Sesi tersimpan ke riwayat.");
+      renderAll();
+      showToast("Sesi tersimpan, bola dan grade diperbarui.");
     }
 
     function applyScoreRatings() {
       const changes = [];
-      currentSchedule.forEach((round) => {
-        round.games.forEach((game) => {
-          const scoreA = Number(game.scoreA);
-          const scoreB = Number(game.scoreB);
-          if (!Number.isFinite(scoreA) || !Number.isFinite(scoreB) || scoreA === scoreB) return;
-          const teamA = game.teamA.map((p) => state.players.find((player) => player.id === p.id)).filter(Boolean);
-          const teamB = game.teamB.map((p) => state.players.find((player) => player.id === p.id)).filter(Boolean);
-          if (teamA.length !== 2 || teamB.length !== 2) return;
-
-          const ratingA = teamA.reduce((sum, p) => sum + playerRating(p), 0) / 2;
-          const ratingB = teamB.reduce((sum, p) => sum + playerRating(p), 0) / 2;
-          const expectedA = 1 / (1 + Math.pow(10, (ratingB - ratingA) / 1.2));
-          const actualA = scoreA > scoreB ? 1 : 0;
-          const margin = Math.min(Math.abs(scoreA - scoreB), 15);
-          const factor = 0.035 + margin * 0.006;
-          const deltaA = clamp((actualA - expectedA) * factor, -0.12, 0.12);
-          const deltaB = -deltaA;
-
-          updateTeamRating(teamA, deltaA, changes, game, scoreA, scoreB);
-          updateTeamRating(teamB, deltaB, changes, game, scoreB, scoreA);
-          state.scoreHistory.push({
-            date: $("sessionDate").value,
-            round: round.number,
-            court: game.court,
-            teamA: teamA.map((p) => p.id),
-            teamB: teamB.map((p) => p.id),
-            scoreA,
-            scoreB
-          });
-        });
-      });
+      currentSchedule.forEach((round) => round.games.forEach((game) => {
+        const scoreA = Number(game.scoreA);
+        const scoreB = Number(game.scoreB);
+        if (!Number.isFinite(scoreA) || !Number.isFinite(scoreB) || scoreA === scoreB) return;
+        const teamA = game.teamA.map((p) => findPlayer(p.id)).filter(Boolean);
+        const teamB = game.teamB.map((p) => findPlayer(p.id)).filter(Boolean);
+        if (teamA.length !== 2 || teamB.length !== 2) return;
+        const ratingA = teamScore(teamA) / 2;
+        const ratingB = teamScore(teamB) / 2;
+        const expectedA = 1 / (1 + Math.pow(10, (ratingB - ratingA) / 1.25));
+        const actualA = scoreA > scoreB ? 1 : 0;
+        const margin = Math.min(Math.abs(scoreA - scoreB), targetScore() / 2);
+        const factor = 0.035 + margin * 0.004;
+        const deltaA = clamp((actualA - expectedA) * factor, -0.11, 0.11);
+        updateTeamRating(teamA, deltaA, changes);
+        updateTeamRating(teamB, -deltaA, changes);
+        state.scoreHistory.push({ date: $("sessionDate").value, round: round.number, court: game.court, scoreA, scoreB, balls: Number(game.balls) || 0 });
+      }));
       return changes;
     }
 
-    function updateTeamRating(team, delta, changes, game, ownScore, opponentScore) {
+    function updateTeamRating(team, delta, changes) {
       team.forEach((player) => {
-        const beforeRating = playerRating(player);
         const beforeGrade = player.grade;
-        const nextRating = clamp(beforeRating + delta, 2.3, 5.2);
-        const nextGrade = gradeFromRating(nextRating);
-        player.rating = Number(nextRating.toFixed(3));
-        player.grade = nextGrade;
-        if (beforeGrade !== nextGrade || Math.abs(beforeRating - nextRating) >= .005) {
-          changes.push({
-            playerId: player.id,
-            name: player.name,
-            beforeGrade,
-            afterGrade: nextGrade,
-            beforeRating: Number(beforeRating.toFixed(3)),
-            afterRating: Number(nextRating.toFixed(3)),
-            score: `${ownScore}-${opponentScore}`,
-            court: game.court
-          });
-        }
+        const beforeRating = playerRating(player);
+        player.rating = Number(clamp(beforeRating + delta, 2.75, 5.05).toFixed(3));
+        player.grade = nearestGrade(player.rating);
+        if (beforeGrade !== player.grade) changes.push({ playerId: player.id, name: player.name, beforeGrade, afterGrade: player.grade });
       });
     }
 
@@ -1135,98 +973,105 @@
       return Math.max(min, Math.min(max, value));
     }
 
+    function renderHistory() {
+      const history = $("history");
+      history.innerHTML = "";
+      if (!state.sessions.length) {
+        history.innerHTML = `<div class="empty">Riwayat sesi akan muncul di sini.</div>`;
+        return;
+      }
+      [...state.sessions].reverse().forEach((session) => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+        item.innerHTML = `
+          <div><strong>${escapeHtml(session.date)}</strong><div class="small-note">${session.presentCount} pemain, ${session.courts} lapangan, ${session.games} match, ${session.balls || 0} bola pemain</div></div>
+          <button class="mini">Lihat</button>
+        `;
+        item.querySelector("button").addEventListener("click", () => {
+          currentSchedule = session.schedule || [];
+          currentSessionSaved = true;
+          renderAll();
+          showToast("Riwayat sesi dibuka.");
+        });
+        history.appendChild(item);
+      });
+    }
+
+    function renderAll() {
+      renderPlayers();
+      renderRequests();
+      renderSchedule();
+      renderHistory();
+      renderBallReport();
+    }
+
     function scheduleToText() {
-      if (!currentSchedule.length) return "";
       return currentSchedule.map((round) => {
         const games = round.games.map((game) => {
           const a = game.teamA.map((p) => `${p.name} (${p.grade})`).join(" + ");
           const b = game.teamB.map((p) => `${p.name} (${p.grade})`).join(" + ");
-          return `Lapangan ${game.court}: ${a} vs ${b}`;
+          const score = game.scoreA != null || game.scoreB != null ? ` | Skor ${game.scoreA || 0}-${game.scoreB || 0}` : "";
+          const balls = game.balls ? ` | Bola ${game.balls}` : "";
+          return `Lapangan ${game.court}: ${a} vs ${b}${score}${balls}`;
         }).join("\n");
-        const rest = round.resting.length ? `Istirahat: ${round.resting.map((p) => p.name).join(", ")}` : "Istirahat: -";
-        return `Ronde ${round.number}\n${games}\n${rest}`;
+        return `Ronde ${round.number}\n${games}`;
       }).join("\n\n");
     }
 
     function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[char]));
+      return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
     }
 
     $("addBtn").addEventListener("click", addPlayer);
-    $("nameInput").addEventListener("keydown", (event) => {
-      if (event.key === "Enter") addPlayer();
-    });
+    $("nameInput").addEventListener("keydown", (event) => { if (event.key === "Enter") addPlayer(); });
     $("sampleBtn").addEventListener("click", () => {
-      if (state.players.length && !confirm("Ganti/tambah data contoh ke daftar pemain?")) return;
+      if (state.players.length && !confirm("Tambah data contoh NEXA ke daftar pemain?")) return;
       const existing = new Set(state.players.map((p) => p.name.toLowerCase()));
-      samplePlayers.forEach(([name, grade]) => {
-        if (!existing.has(name.toLowerCase())) state.players.push({ id: uid(), name, grade, rating: gradeScore[grade], present: true });
+      samplePlayers.forEach(([name, grade, gender]) => {
+        if (!existing.has(name.toLowerCase())) state.players.push({ id: uid(), name, grade, gender, rating: gradeScore[grade], present: true, arrivedRound: currentSchedule.length + 1 || 1 });
       });
       saveState();
       renderAll();
-      showToast("Data contoh dimasukkan.");
+      showToast("Data contoh NEXA dimasukkan.");
     });
-    $("selectAllBtn").addEventListener("click", () => {
-      state.players.forEach((p) => p.present = true);
-      saveState();
-      renderPlayers();
-    });
-    $("clearAttendBtn").addEventListener("click", () => {
-      state.players.forEach((p) => p.present = false);
-      saveState();
-      renderPlayers();
-    });
-    $("sortBtn").addEventListener("click", () => {
-      state.players.sort((a, b) => playerRating(b) - playerRating(a) || a.name.localeCompare(b.name));
-      saveState();
-      renderPlayers();
-    });
+    $("selectAllBtn").addEventListener("click", () => { state.players.forEach((p) => setPlayerPresence(p, true)); saveState(); renderAll(); });
+    $("clearAttendBtn").addEventListener("click", () => { state.players.forEach((p) => setPlayerPresence(p, false)); saveState(); renderAll(); });
+    $("sortBtn").addEventListener("click", () => { state.players.sort((a, b) => playerRating(b) - playerRating(a) || a.name.localeCompare(b.name)); saveState(); renderAll(); });
+    $("addRequestBtn").addEventListener("click", addRequest);
     $("courtCount").addEventListener("change", updateStats);
+    $("targetScore").addEventListener("change", renderSchedule);
     $("generateBtn").addEventListener("click", generateSchedule);
     $("appendRoundBtn").addEventListener("click", () => generateSchedule({ append: true }));
-    scheduleEl.addEventListener("input", (event) => {
-      const input = event.target.closest("input[data-score]");
-      if (!input) return;
-      const roundNumber = Number(input.dataset.round);
-      const court = Number(input.dataset.court);
-      const round = currentSchedule.find((item) => item.number === roundNumber);
-      const game = round?.games.find((item) => item.court === court);
-      if (!game) return;
-      const value = input.value === "" ? null : Number(input.value);
-      if (input.dataset.score === "A") game.scoreA = value;
-      if (input.dataset.score === "B") game.scoreB = value;
-    });
     $("saveSessionBtn").addEventListener("click", saveCurrentSession);
-    $("copyBtn").addEventListener("click", async () => {
-      await navigator.clipboard.writeText(scheduleToText());
-      showToast("Jadwal disalin.");
-    });
-    $("resetSessionBtn").addEventListener("click", () => {
-      currentSchedule = [];
-      renderSchedule();
-      showToast("Sesi direset.");
-    });
+    $("copyBtn").addEventListener("click", async () => { await navigator.clipboard.writeText(scheduleToText()); showToast("Jadwal disalin."); });
+    $("resetSessionBtn").addEventListener("click", () => { currentSchedule = []; currentSessionSaved = false; renderAll(); showToast("Sesi direset."); });
     $("clearHistoryBtn").addEventListener("click", () => {
-      if (!confirm("Hapus semua riwayat sesi dan memori variasi pasangan/lawan?")) return;
+      if (!confirm("Hapus riwayat sesi, memori variasi, dan total bola tersimpan?")) return;
       state.sessions = [];
       state.pairCounts = {};
       state.opponentCounts = {};
+      state.ballTotals = {};
       saveState();
-      renderHistory();
+      renderAll();
       showToast("Riwayat dihapus.");
+    });
+    $("schedule").addEventListener("input", (event) => {
+      const input = event.target.closest("input[data-field]");
+      if (!input) return;
+      const round = currentSchedule.find((item) => item.number === Number(input.dataset.round));
+      const game = round?.games.find((item) => item.court === Number(input.dataset.court));
+      if (!game) return;
+      game[input.dataset.field] = input.value === "" ? null : Number(input.value);
+      currentSessionSaved = false;
+      updateStats();
+      renderBallReport();
     });
     $("exportBtn").addEventListener("click", () => {
       const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = `data-badminton-${todayInputValue()}.json`;
+      link.download = `data-nexa-badminton-${todayInputValue()}.json`;
       link.click();
       URL.revokeObjectURL(url);
     });
@@ -1240,8 +1085,10 @@
           const imported = JSON.parse(reader.result);
           if (!Array.isArray(imported.players)) throw new Error("Format tidak valid");
           Object.assign(state, defaultState(), imported);
+          state.players = state.players.map((p, i) => normalizePlayer(p, i));
           saveState();
           currentSchedule = [];
+          currentSessionSaved = false;
           renderAll();
           showToast("Data berhasil diimport.");
         } catch {
@@ -1254,7 +1101,6 @@
 
     $("sessionDate").value = todayInputValue();
     renderAll();
-
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       navigator.serviceWorker.register("service-worker.js").catch(() => {});
     }

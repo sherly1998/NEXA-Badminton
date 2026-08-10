@@ -1,10 +1,10 @@
 {
-  "name": "Pengatur Main Badminton",
-  "short_name": "Badminton",
-  "start_url": "./aplikasi-jadwal-badminton.html",
+  "name": "NEXA Badminton Scheduler",
+  "short_name": "NEXA",
+  "start_url": "./aplikasi-jadwal-badminton.html?v=7",
   "display": "standalone",
   "background_color": "#f6f7f3",
   "theme_color": "#101712",
   "orientation": "portrait-primary",
-  "description": "Aplikasi komunitas badminton untuk mengatur pemain, jadwal, skor, dan grade otomatis."
+  "description": "Aplikasi NEXA untuk mengatur jadwal badminton, skor 30, grade otomatis, request match, dan penggunaan bola."
 }
